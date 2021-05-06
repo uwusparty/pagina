@@ -1,0 +1,77 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    list-style: none; 
+}
+
+#cuerpo
+{
+    padding-top: 7vh;
+}
+
+#encabezado #menu
+{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 100%;
+    margin: 0 auto; 
+    height: 7vh;
+    line-height: 7vh;
+    color: rgb(190, 190, 190);
+    font-size: 2vh;
+    font-weight: bold;
+    text-align: center;
+    background: rgb(36, 36, 36);
+    position: fixed;
+}
+
+#encabezado a
+{
+    text-decoration: none;
+    color: inherit;
+}
+
+#encabezado #menu li
+{
+    width: 15%;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+#encabezado #menu li:hover
+{
+    background: rgb(60, 60, 60);
+    color: white;
+}
+
+#encabezado .izq
+{
+    float: left;
+}
+
+#encabezado .dcha
+{
+    float: right;
+}
+
+#encabezado #menuCuenta
+{
+    display: none;
+}
+
+#encabezado #menuCuenta li
+{
+    width: 100%;
+    background: rgb(36, 36, 36);
+}
+
+#encabezado #menuCuenta li:hover
+{
+    background: rgb(80, 80, 80);
+}
+
+#encabezado #menu li:hover ul
+{
+    display: block;
+}
+
+

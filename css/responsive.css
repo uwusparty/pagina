@@ -1,0 +1,10 @@
+@media (max-width: 750px)
+{
+    #encabezado #menu li
+    {
+        width: 25%;
+        font-size: 1.75vh;
+    }    
+
+}
+  
