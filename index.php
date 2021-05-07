@@ -15,9 +15,41 @@
         encabezado();
     ?>
     <div id='cuerpo'>
-        <div id="portada">
+        <div id='portada'>
             <h1>Trivialmi</h1>
         </div>
+        <div id='centro'>
+            <div class='apartado'>
+                <div>
+                    <h2>¿Qué es Trivialmi?</h2>
+                    <p>Trivialmi es el puto mejor juego 👊 👊 Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dolorem repellendus, dolor ullam harum beatae tempore et iste eaque officia asperiores! Porro laudantium aperiam vitae enim dolore repellat facere illum! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur molestiae, fugiat exercitationem natus placeat nihil eius eos neque pariatur consectetur nesciunt suscipit ullam molestias voluptates odio dolore nostrum numquam aspernatur? lore</p>
+                </div>
+                <div class='paraImagen'>
+                    <img src='resources/ruleta.png' alt='Imagen de ruleta'>
+                </div>
+            </div>
+            <div class='apartado'>
+                <div class='paraImagen'>
+                    <img src='resources/ruleta.png' alt='Imagen de ruleta'>
+                </div>
+                <div>
+                    <h2>¿Qué es Trivialmi?</h2>
+                    <p>Trivialmi es el puto mejor juego 👊 👊 Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dolorem repellendus, dolor ullam harum beatae tempore et iste eaque officia asperiores! Porro laudantium aperiam vitae enim dolore repellat facere illum! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur molestiae, fugiat exercitationem natus placeat nihil eius eos neque pariatur consectetur nesciunt suscipit ullam molestias voluptates odio dolore nostrum numquam aspernatur? lore</p>
+                </div>
+            </div>
+            <div class='apartado'>
+                <div>
+                    <h2>¿Qué es Trivialmi?</h2>
+                    <p>Trivialmi es el puto mejor juego 👊 👊 Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dolorem repellendus, dolor ullam harum beatae tempore et iste eaque officia asperiores! Porro laudantium aperiam vitae enim dolore repellat facere illum! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur molestiae, fugiat exercitationem natus placeat nihil eius eos neque pariatur consectetur nesciunt suscipit ullam molestias voluptates odio dolore nostrum numquam aspernatur? lore</p>
+                </div>
+                <div class='paraImagen'>
+                    <img src='resources/ruleta.png' alt='Imagen de ruleta'>
+                </div>
+            </div>
+        </div>
     </div>
+    <?php
+        pie();
+    ?>
 </body>
 </html>
