@@ -19,7 +19,7 @@
             <h1>Crear una cuenta</h1>
         </div>
         <div id='centro'>
-            <form action="#" method="post">
+            <form action="registerComprobar.php" method="post">
                 <div>
                     <label for="email">Correo electrónico: </label>
                     <input type="email" name="email" id="email">
@@ -27,9 +27,9 @@
                     <input type="text" name="username" id="username">
                     <label for="password">Contraseña: </label>
                     <input type="password" name="password" id="password">
-                    <label for="bithdate">Fecha de nacimiento: </label>
-                    <input type="date" name="bithdate" id="bithdate">
-                    <input type="button" value="Registrar">
+                    <label for="birthdate">Fecha de nacimiento: </label>
+                    <input type="date" name="birthdate" id="birthdate">
+                    <input type="submit" value="Registrar">
                 </div>
             </form>
             <div class="floatClear"></div>

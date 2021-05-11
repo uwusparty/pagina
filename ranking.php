@@ -16,19 +16,10 @@
     ?>
     <div id='cuerpo'>
         <div id='portada'>
-            <h1>Iniciar sesión</h1>
+            <h1>Ranking</h1>
         </div>
-        <div id='centro'>
-            <form action="#" method="post">
-                <div>
-                    <label for="username">Usuario o correo electrónico: </label>
-                    <input type="text" name="username" id="username">
-                    <label for="password">Contraseña: </label>
-                    <input type="password" name="password" id="password">
-                    <input type="submit" value="Iniciar sesión">
-                </div>
-            </form>
-            <div class="floatClear"></div>
+        <div>
+            
         </div>
     </div>
     <?php
