@@ -1,5 +1,10 @@
 @media (max-width: 750px)
 {
+    #portada h1
+    {
+        font-size: 5vh;
+    }
+
     #encabezado #menu li
     {
         width: 25%;

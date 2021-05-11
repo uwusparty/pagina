@@ -6,6 +6,30 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+.floatClear
+{
+    clear: both;
+}
+
+#portada
+{
+    width: 100%;
+    height: 35vh;
+    text-align: center;
+    color: white;
+    border-bottom: 0.7vh rgb(36, 36, 36) solid;
+    margin-bottom: 5vh;
+    background: rgb(50, 50, 50);
+}
+
+#portada h1
+{
+    line-height: 35vh;
+    font-size: 8vh;
+    margin: auto;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 #cuerpo
 {
     padding-top: 7vh;
@@ -113,4 +137,11 @@
     color: white;
     /* margin: 0; */
     font-size: 1.5vh;
+}
+
+#centro
+{
+    width: 80%;
+    margin: 5vh auto;
+    border: 0.8vh solid black;
 }
