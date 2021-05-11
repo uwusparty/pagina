@@ -19,7 +19,7 @@
             <h1>Crear una cuenta</h1>
         </div>
         <div id='centro'>
-            <form action="registerComprobar.php" method="post">
+            <form id="formulario" action="registerComprobar.php" method="post">
                 <div>
                     <label for="email">Correo electrónico: </label>
                     <input type="email" name="email" id="email">
@@ -27,6 +27,8 @@
                     <input type="text" name="username" id="username">
                     <label for="password">Contraseña: </label>
                     <input type="password" name="password" id="password">
+                    <label for="repassword">Repetir contraseña: </label>
+                    <input type="password" name="repassword" id="repassword">
                     <label for="birthdate">Fecha de nacimiento: </label>
                     <input type="date" name="birthdate" id="birthdate">
                     <input type="submit" value="Registrar">
@@ -38,5 +40,7 @@
     <?php
         pie();
     ?>
+    <script src="js\jquery-3.6.0.min.js"></script>
+    <script src="js\register.js"></script>
 </body>
 </html>
