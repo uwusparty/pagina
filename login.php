@@ -21,9 +21,9 @@
         <div id='centro'>
             <form action="#" method="post">
                 <div>
-                    <label for="username">Username: </label>
+                    <label for="username">Usuario o correo electrónico: </label>
                     <input type="text" name="username" id="username">
-                    <label for="password">Password: </label>
+                    <label for="password">Contraseña: </label>
                     <input type="password" name="password" id="password">
                     <input type="button" value="Iniciar sesión">
                 </div>

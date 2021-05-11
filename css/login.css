@@ -14,7 +14,7 @@ form > div
 form > div label
 {
     display: block;
-    width: 40%;
+    width: 100%;
 }
 
 form > div input:not([type=button])
