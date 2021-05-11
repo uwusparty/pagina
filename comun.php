@@ -5,7 +5,6 @@
             echo "<ul id='menu'>";
                 echo "<a href='index.php'><li class='izq'>Inicio</li></a>";
                 echo "<a href='ranking.php'><li class='izq'>Ranking</li></a>";
-                session_start();
                 if(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!isset($_SESSION['nombre']))
                 {
                     echo "<a href='#'><li id='preg' class='izq'>Sugerir pregunta</li></a>";
