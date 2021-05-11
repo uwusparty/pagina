@@ -89,24 +89,79 @@ $(document).ready(function()
   //  SUBMIT
   $("#formulario").submit(function()
   {
-    var error = false;
+    var fallo = false;
     if (posArroba <= 0 || posPunto <= 0)
     {
-      error = true;
+      fallo = true;
     }
     if (username == "") {
-      error = true;
+      fallo = true;
     }
     if(!password.match(filtroMayus) || !password.match(filtroMinus) || !password.match(filtroNums) || password.match(" ") || password.length < 8)
     {
-      error = true;
+      fallo = true;
     }
     if(repassword != password)
     {
-      error = true;
+      fallo = true;
     }
-    if (error) {
+    if (fallo) {
       event.preventDefault();
+    }
+    else {/*
+      var correoDisponible = false;
+      var nombreDisponible = false;
+      event.preventDefault();
+      var parametros = {'function':'getUsuarioByCorreo','email':email};
+      $.ajax(
+      {
+        data: parametros,
+        url:'../servicios.php',
+        type:'post',
+        success:function(response)
+        {
+          var correo = $.parseJSON(response);
+          if (correo != null) {
+            $("#email").css("background-color", "red");
+            fallo = true;
+          }
+          else {
+            correoDisponible = true;
+            if (nombreDisponible) {
+              formulario.submit();
+            }
+          }
+        },
+        error: function(error)
+        {
+          console.log(error);
+        }
+      });
+      var parametros = {'function':'getUsuarioByNombre','nombre':username};
+      $.ajax(
+      {
+        data: parametros,
+        url:'../servicios.php',
+        type:'post',
+        success:function(response)
+        {
+          var nombre = $.parseJSON(response);
+          if (nombre != null) {
+            $("#username").css("background-color", "red");
+            fallo = true;
+          }
+          else {
+            nombreDisponible = true;
+            if (correoDisponible) {
+              formulario.submit();
+            }
+          }
+        },
+        error: function(error)
+        {
+          console.log(error);
+        }
+      });*/
     }
   });
 });
