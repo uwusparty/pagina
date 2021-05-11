@@ -16,16 +16,20 @@
     ?>
     <div id='cuerpo'>
         <div id='portada'>
-            <h1>Iniciar sesión</h1>
+            <h1>Crear una cuenta</h1>
         </div>
         <div id='centro'>
             <form action="#" method="post">
                 <div>
-                    <label for="username">Usuario o correo electrónico: </label>
+                    <label for="email">Correo electrónico: </label>
+                    <input type="email" name="email" id="email">
+                    <label for="username">Usuario: </label>
                     <input type="text" name="username" id="username">
                     <label for="password">Contraseña: </label>
                     <input type="password" name="password" id="password">
-                    <input type="button" value="Iniciar sesión">
+                    <label for="bithdate">Fecha de nacimiento: </label>
+                    <input type="date" name="bithdate" id="bithdate">
+                    <input type="button" value="Registrar">
                 </div>
             </form>
             <div class="floatClear"></div>

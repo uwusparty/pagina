@@ -19,7 +19,7 @@
                 else
                 {
                     echo "<a href='login.php'><li class='dcha'>Iniciar sesión</li></a>";
-                    echo "<a href='#'><li class='dcha'>Registrarse</li></a>";
+                    echo "<a href='register.php'><li class='dcha'>Registro</li></a>";
                 }
             echo "</ul>";
         echo "</div>";
