@@ -21,10 +21,19 @@
         <div id='centro'>
             <form id="formulario" action="loginComprobar.php" method="post">
                 <div>
-                    <label for="username">Usuario o correo electrónico: </label>
-                    <input type="text" name="username" id="username">
-                    <label for="password">Contraseña: </label>
-                    <input type="password" name="password" id="password">
+                    <?php
+                        echo "<label for='username'>Usuario o correo electrónico: </label>";
+                        echo "<input type='text' name='username' id='username'";
+                        if (isset($_GET['err']) == true) {
+                          echo "value='".$_GET['err']."'";
+                        }
+                        echo ">";
+                        echo "<label for='password'>Contraseña: </label>";
+                        echo "<input type='password' name='password' id='password'>";
+                        if (isset($_GET['err']) == true) {
+                          echo "<p id=''>La combinación del usuario y la contraseña no coinciden con ninguna cuenta existente.</p>";
+                        }
+                     ?>
                     <input type="submit" value="Iniciar sesión">
                 </div>
             </form>

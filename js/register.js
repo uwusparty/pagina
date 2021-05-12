@@ -9,6 +9,8 @@ $(document).ready(function()
   var username = "";
   var password = "";
   var repassword = "";
+  var birthdate = "";
+  var curDate = Date.now();
 
   //  EMAIL
   $("#email").on('input', function()
@@ -83,7 +85,14 @@ $(document).ready(function()
   //  BIRTHDATE
   $("#birthdate").on("change textInput input", function()
   {
-
+    birthdate = new Date($(this).val());
+    if (birthdate > curDate)
+    {
+      $("#birthdate").css("background-color", "red");
+    }
+    if (!Date.parse(birthdate)) {
+      birthdate = "";
+    }
   });
 
   //  SUBMIT
@@ -91,20 +100,45 @@ $(document).ready(function()
   {
     var formulario = this;
     var fallo = false;
+    var htmlError = "";
+    $("#formError").html("");
     if (posArroba <= 0 || posPunto <= 0)
     {
       fallo = true;
+      htmlError = "<p>-La dirección de correo debe tener como mínimo una arroba y un punto.</p>";
+      $("#formError").append(htmlError);
     }
     if (username == "" || username.match("@")) {
       fallo = true;
+      if (username == "") {
+        htmlError = "<p>-El usuario no puede quedar vacío.</p>";
+      }
+      else {
+        htmlError = "<p>-El usuario no puede contener @.</p>";
+      }
+      $("#formError").append(htmlError);
     }
     if(!password.match(filtroMayus) || !password.match(filtroMinus) || !password.match(filtroNums) || password.match(" ") || password.length < 8)
     {
       fallo = true;
+      htmlError = "<p>-La contraseña debe contener como mínimo una minúscula, una mayúscula, un número y tener una longitud de 8 carácteres o superior.</p>";
+      $("#formError").append(htmlError);
     }
     if(repassword != password)
     {
       fallo = true;
+      htmlError = "<p>-Las contraseñas no coinciden.</p>";
+      $("#formError").append(htmlError);
+    }
+    if (birthdate > curDate || birthdate == "" ) {
+      fallo = true;
+      if (birthdate > curDate) {
+        htmlError = "<p>-La fecha no puede ser superior a la de hoy.</p>";
+      }
+      else if (birthdate == "") {
+        htmlError = "<p>-La fecha no puede quedar vacía.</p>";
+      }
+      $("#formError").append(htmlError);
     }
     if (fallo) {
       event.preventDefault();
@@ -123,7 +157,7 @@ $(document).ready(function()
         {
           var usuario = $.parseJSON(response);
           if (usuario.username != null) {
-            htmlError += "<p>El correo introducido no está disponible</p>";
+            htmlError = "<p>-El correo introducido no está disponible.</p>";
             $("#formError").append(htmlError);
             $("#email").css("background-color", "red");
           }
@@ -147,9 +181,10 @@ $(document).ready(function()
         type:'post',
         success:function(response)
         {
+          console.log(response);
           var usuario = $.parseJSON(response);
           if (usuario.username != null) {
-            htmlError += "<p>El nombre de usuario introducido no está disponible</p>";
+            htmlError = "<p>-El nombre de usuario introducido no está disponible.</p>";
             $("#formError").append(htmlError);
             $("#username").css("background-color", "red");
           }

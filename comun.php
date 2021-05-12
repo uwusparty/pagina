@@ -11,7 +11,7 @@
                   echo "<a href='#'><li id='preg' class='izq'>Sugerir pregunta</li></a>";
                   echo "<li class='dcha'>Cuenta";
                       echo "<ul id='menuCuenta'>";
-                          echo "<a href='#'><li>Perfil</li></a>";
+                          echo "<a href='perfil.php'><li>Perfil</li></a>";
                           echo "<a href='cerrarSesion.php'><li>Cerrar sesión</li></a>";
                       echo "</ul>";
                   echo "</li>";

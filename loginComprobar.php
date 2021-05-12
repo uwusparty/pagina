@@ -9,7 +9,7 @@
   }
   if(sizeof($datos) == 0)
   {
-    header("location: login.php");
+    header("location: login.php?err=".$_POST['username']);
   }
   else
   {

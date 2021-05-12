@@ -21,7 +21,6 @@
         <div id='centro'>
             <form id="formulario" action="registerComprobar.php" method="post">
                 <div>
-                    <div id="formError"></div>
                     <label for="email">Correo electrónico: </label>
                     <input type="email" name="email" id="email">
                     <label for="username">Usuario: </label>
@@ -32,6 +31,7 @@
                     <input type="password" name="repassword" id="repassword">
                     <label for="birthdate">Fecha de nacimiento: </label>
                     <input type="date" name="birthdate" id="birthdate">
+                    <div id="formError"></div>
                     <input type="submit" value="Registrar">
                 </div>
             </form>

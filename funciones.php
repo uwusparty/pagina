@@ -35,7 +35,7 @@ function registro($email, $username, $password, $birthdate)
 function getUsuarioByCorreo($mail)
 {
   $mysqli = bbdd();
-  $stmt=$mysqli->prepare("SELECT id_user email, username, password, birthdate FROM users WHERE email = ?");
+  $stmt=$mysqli->prepare("SELECT id_user, email, username, password, birthdate, pfp FROM users WHERE email = ?");
   $stmt->bind_param("s", $mail);
   $stmt->execute();
   $id_user = -1;
@@ -66,7 +66,7 @@ function getUsuarioByCorreo($mail)
 function getUsuarioByNombre($name)
 {
   $mysqli = bbdd();
-  $stmt=$mysqli->prepare("SELECT id_user email, username, password, birthdate FROM users WHERE username = ?");
+  $stmt=$mysqli->prepare("SELECT id_user, email, username, password, birthdate, pfp FROM users WHERE username = ?");
   $stmt->bind_param("s", $name);
   $stmt->execute();
   $id_user = -1;
@@ -98,7 +98,7 @@ function getUsuarioByNombre($name)
 function loginCorreo($mail, $pw)
 {
   $mysqli = bbdd();
-  $stmt=$mysqli->prepare("SELECT id_user email, username, password, birthdate FROM users WHERE email = ? AND password = ?");
+  $stmt=$mysqli->prepare("SELECT id_user, email, username, password, birthdate, pfp FROM users WHERE email = ? AND password = ?");
   $stmt->bind_param("ss", $mail, $pw);
   $stmt->execute();
   $id_user = -1;
@@ -129,7 +129,7 @@ function loginCorreo($mail, $pw)
 function loginNombre($name, $pw)
 {
   $mysqli = bbdd();
-  $stmt=$mysqli->prepare("SELECT id_user email, username, password, birthdate FROM users WHERE username = ? AND password = ?");
+  $stmt=$mysqli->prepare("SELECT id_user, email, username, password, birthdate, pfp FROM users WHERE username = ? AND password = ?");
   $stmt->bind_param("ss", $name, $pw);
   $stmt->execute();
   $id_user = -1;
