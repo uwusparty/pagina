@@ -20,14 +20,76 @@ function registro($email, $username, $password, $birthdate)
     $stmt=$mysqli->prepare("INSERT INTO users (email, username, password, birthdate) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $email, $username, $password, $birthdate);
     $stmt->execute();
-    $mysqli->close();
 
     $datos = array
     (
-        "id_user" => mysql_insert_id(),
+        "id_user" => $mysqli->insert_id,
         "username" => $username,
         "pfp" => "resources/pfp.png"
     );
 
+    $mysqli->close();
     return $datos;
+}
+
+function loginCorreo($mail, $pw)
+{
+  $mysqli = bbdd();
+  $stmt=$mysqli->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
+  $stmt->bind_param("ss", $mail, $pw);
+  $stmt->execute();
+  $id_user = -1;
+  $email = "";
+  $username = "";
+  $password = "";
+  $birthdate = "";
+  $pfp = "";
+  $stmt->bind_result($id_user, $email, $username, $password, $birthdate, $pfp);
+
+  $resultado = array();
+
+  if($stmt->fetch())
+  {
+      $resultado = array(
+          'id_user' => $id_user,
+          'email' => $email,
+          'username' => $username,
+          'password' => $password,
+          'birthdate' => $birthdate,
+          'pfp' => $pfp
+      );
+  }
+  $mysqli->close();
+  return $resultado;
+}
+
+function loginNombre($name, $pw)
+{
+  $mysqli = bbdd();
+  $stmt=$mysqli->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+  $stmt->bind_param("ss", $name, $pw);
+  $stmt->execute();
+  $id_user = -1;
+  $email = "";
+  $username = "";
+  $password = "";
+  $birthdate = "";
+  $pfp = "";
+  $stmt->bind_result($id_user, $email, $username, $password, $birthdate, $pfp);
+
+  $resultado = array();
+
+  if($stmt->fetch())
+  {
+      $resultado = array(
+          'id_user' => $id_user,
+          'email' => $email,
+          'username' => $username,
+          'password' => $password,
+          'birthdate' => $birthdate,
+          'pfp' => $pfp
+      );
+  }
+  $mysqli->close();
+  return $resultado;
 }

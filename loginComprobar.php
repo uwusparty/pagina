@@ -1,0 +1,21 @@
+<?php
+  session_start();
+  include "funciones.php";
+  if (strpos($_POST['username'], "@")) {
+    $datos = loginCorreo($_POST['username'], $_POST['password']);
+  }
+  else {
+    $datos = loginNombre($_POST['username'], $_POST['password']);
+  }
+  if(sizeof($datos) == 0)
+  {
+    header("location: login.php");
+  }
+  else
+  {
+    $_SESSION['id_user'] = $datos['id_user'];
+    $_SESSION['username'] = $datos['username'];
+    $_SESSION['pfp'] = $datos['pfp'];
+    header("location: index.php");
+  }
+ ?>

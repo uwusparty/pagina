@@ -19,7 +19,7 @@
             <h1>Iniciar sesión</h1>
         </div>
         <div id='centro'>
-            <form action="#" method="post">
+            <form id="formulario" action="loginComprobar.php" method="post">
                 <div>
                     <label for="username">Usuario o correo electrónico: </label>
                     <input type="text" name="username" id="username">

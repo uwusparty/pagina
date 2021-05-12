@@ -33,14 +33,14 @@ $(document).ready(function()
   $("#username").on('input', function()
   {
     username = $(this).val();
-    if (username != "")
+    if (username != "" && !username.match("@"))
     {
       $("#username").css("background-color", "white");
     }
   });
   $("#username").focusout(function()
   {
-    if (username == "")
+    if (username == "" || username.match("@"))
     {
       $("#username").css("background-color", "red");
     }
@@ -94,7 +94,7 @@ $(document).ready(function()
     {
       fallo = true;
     }
-    if (username == "") {
+    if (username == "" || username.match("@")) {
       fallo = true;
     }
     if(!password.match(filtroMayus) || !password.match(filtroMinus) || !password.match(filtroNums) || password.match(" ") || password.length < 8)
