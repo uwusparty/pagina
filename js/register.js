@@ -89,6 +89,7 @@ $(document).ready(function()
   //  SUBMIT
   $("#formulario").submit(function()
   {
+    var formulario = this;
     var fallo = false;
     if (posArroba <= 0 || posPunto <= 0)
     {
@@ -108,11 +109,11 @@ $(document).ready(function()
     if (fallo) {
       event.preventDefault();
     }
-    else {/*
+    else {
       var correoDisponible = false;
       var nombreDisponible = false;
       event.preventDefault();
-      var parametros = {'function':'getUsuarioByCorreo','email':email};
+      var parametros = {'function':'getUsuarioByCorreo','correo':email};
       $.ajax(
       {
         data: parametros,
@@ -120,12 +121,13 @@ $(document).ready(function()
         type:'post',
         success:function(response)
         {
-          var correo = $.parseJSON(response);
-          if (correo != null) {
+          var usuario = $.parseJSON(response);
+          if (usuario.username != null) {
+            htmlError += "<p>El correo introducido no está disponible</p>";
+            $("#formError").append(htmlError);
             $("#email").css("background-color", "red");
-            fallo = true;
           }
-          else {
+          else { // correo disponible
             correoDisponible = true;
             if (nombreDisponible) {
               formulario.submit();
@@ -137,7 +139,7 @@ $(document).ready(function()
           console.log(error);
         }
       });
-      var parametros = {'function':'getUsuarioByNombre','nombre':username};
+      var parametros = {'function':'getUsuarioByNombre','username':username};
       $.ajax(
       {
         data: parametros,
@@ -145,12 +147,13 @@ $(document).ready(function()
         type:'post',
         success:function(response)
         {
-          var nombre = $.parseJSON(response);
-          if (nombre != null) {
+          var usuario = $.parseJSON(response);
+          if (usuario.username != null) {
+            htmlError += "<p>El nombre de usuario introducido no está disponible</p>";
+            $("#formError").append(htmlError);
             $("#username").css("background-color", "red");
-            fallo = true;
           }
-          else {
+          else { // correo disponible
             nombreDisponible = true;
             if (correoDisponible) {
               formulario.submit();
@@ -161,7 +164,7 @@ $(document).ready(function()
         {
           console.log(error);
         }
-      });*/
+      });
     }
   });
 });

@@ -21,6 +21,7 @@
         <div id='centro'>
             <form id="formulario" action="registerComprobar.php" method="post">
                 <div>
+                    <div id="formError"></div>
                     <label for="email">Correo electrónico: </label>
                     <input type="email" name="email" id="email">
                     <label for="username">Usuario: </label>
