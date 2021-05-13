@@ -151,10 +151,11 @@ $(document).ready(function()
       $.ajax(
       {
         data: parametros,
-        url:'../servicios.php',
+        url:'servicios.php',
         type:'post',
         success:function(response)
         {
+          console.log("HOLIIIII");
           var usuario = $.parseJSON(response);
           if (usuario.username != null) {
             htmlError = "<p>-El correo introducido no está disponible.</p>";
@@ -177,7 +178,7 @@ $(document).ready(function()
       $.ajax(
       {
         data: parametros,
-        url:'../servicios.php',
+        url:'servicios.php',
         type:'post',
         success:function(response)
         {

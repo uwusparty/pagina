@@ -1,4 +1,12 @@
 
+@media (min-width: 900px)
+{
+    #menuPreguntas a li:after
+    {
+        content: " preguntas";
+    }
+}
+
 @media (max-width: 900px)
 {
     #portada h1

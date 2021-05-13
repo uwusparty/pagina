@@ -2,6 +2,7 @@
 function bbdd()
 {
     $ip = "192.168.6.216";
+    //En el servidor de mariadb hemos cambiado /etc/mysql/mariadb.conf.d/50-server.cnf
     $mysqli = new mysqli($ip, "almi", "Almi123", "trivialmi");
     if ($mysqli->connect_errno)
     {

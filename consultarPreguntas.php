@@ -16,7 +16,7 @@
     ?>
     <div id='cuerpo'>
         <div id='portada'>
-            <h1>Sugerir pregunta</h1>
+            <h1>Preguntas</h1>
         </div>
         <div id='tabla'>
             <table>
@@ -24,27 +24,13 @@
                     <th>Pregunta</th>
                     <th>Estado</th>
                 </tr>
-                <tr>
-                    <td>¿Preguntaaa?</td>
-                    <td>Aceptado</td>
-                </tr>
-                <tr>
-                    <td>¿Preguntaaa?</td>
-                    <td>Aceptado</td>
-                </tr>
-                <tr>
-                    <td>¿Preguntaaa?</td>
-                    <td>Aceptado</td>
-                </tr>
-                <tr>
-                    <td>¿Preguntaaa?</td>
-                    <td>Aceptado</td>
-                </tr>
             </table>
         </div>
     </div>
     <?php
         pie();
     ?>
+    <script src="js\jquery-3.6.0.min.js"></script>
+    <script src="js\consultarPreguntas.js"></script>
 </body>
 </html>

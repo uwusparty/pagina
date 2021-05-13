@@ -8,9 +8,14 @@
               echo "<a href='ranking.php'><li class='izq'>Ranking</li></a>";
               if(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!isset($_SESSION['username']))
               {
-                  echo "<a href='sugerirPregunta.php'><li id='preg' class='izq'>Sugerir pregunta</li></a>";
+                  echo "<li id='preg' class='izq'>Preguntas";
+                    echo "<ul id='menuPreguntas'>";
+                        echo "<a href=''><li>Crear</li></a>";
+                        echo "<a href='consultarPreguntas.php'><li>Consultar</li></a>";
+                    echo "</ul>";
+                  echo "</li>";
                   echo "<li class='dcha'>Cuenta";
-                      echo "<ul id='menuCuenta'>";
+                      echo "<ul>";
                           echo "<a href='perfil.php'><li>Perfil</li></a>";
                           echo "<a href='cerrarSesion.php'><li>Cerrar sesión</li></a>";
                       echo "</ul>";

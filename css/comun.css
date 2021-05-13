@@ -78,18 +78,18 @@
     float: right;
 }
 
-#encabezado #menuCuenta
+#encabezado ul li ul
 {
     display: none;
 }
 
-#encabezado #menuCuenta a li
+#encabezado ul li ul a li
 {
-    width: 100%;
+    width: 100% !important;
     background: rgb(36, 36, 36);
 }
 
-#encabezado #menuCuenta li:hover
+#encabezado ul li ul a li:hover
 {
     background: rgb(80, 80, 80);
 }
