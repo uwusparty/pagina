@@ -1,0 +1,31 @@
+table
+{
+    border-collapse: collapse;
+    width: 80%;
+    margin: 5vh auto;
+    text-align: center;
+}
+
+td, th
+{
+    border: 0.3vh solid rgb(36, 36, 36);
+    height: 4vh;
+}
+
+th
+{
+    color: white;
+    background: rgb(36, 36, 36);
+    height: 5vh;
+    border-color: black;
+}
+
+td:nth-child(1)
+{
+    width: 70%;
+}
+
+tr:nth-child(odd)
+{
+    background-color: #dddddd;
+}
