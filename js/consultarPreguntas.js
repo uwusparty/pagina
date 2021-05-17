@@ -68,7 +68,7 @@ $(document).ready(function()
                                 var element = arrayDatos[index];
                                 var insertarFila = "";
                                 insertarFila += "<tr>";
-                                    insertarFila += "<td>";
+                                    insertarFila += "<td><b>+</b>";
                                         insertarFila += element.question.en;
                                     insertarFila += "</td>";
                                     insertarFila += "<td>";
@@ -117,6 +117,7 @@ $(document).ready(function()
                 {
                     var datosRecibidos = response.data;
                     var datosTabla = "";
+                    console.log(datosRecibidos);
 
                     for (let i = 0; i < datosRecibidos.length; i++)
                     {
@@ -142,7 +143,6 @@ $(document).ready(function()
     $('#numPaginas').on("click", "p", function(e)
     {
         var offset = $(this).html()-1;
-        console.log(offset);
         $.ajax
         (
             {

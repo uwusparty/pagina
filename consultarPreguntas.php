@@ -25,6 +25,9 @@
             </select>
         </div>
         <div id='tabla'>
+            <div id="numPaginas">
+                <h3>Seleccionar página</h3>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -34,9 +37,6 @@
                 </thead>
                 <tbody></tbody>
             </table>
-            <div id="numPaginas">
-                <h3>Seleccionar página</h3>
-            </div>
         </div>
     </div>
     <div class="floatClear"></div>

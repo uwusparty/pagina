@@ -58,7 +58,7 @@ tr:nth-child(even)
 /* ---------Página actual---------*/
 div#numPaginas
 {
-    margin-top: 4vh;
+    margin-bottom: 8vh;
     width: 100%;
     height: 5vh;
     line-height: 5vh;
@@ -81,7 +81,7 @@ div#filtros
 {
     text-align: center;
     width: 60%;
-    margin: 6vh auto;
+    margin: 5vh auto;
     padding: 2vh;
     border: 0.8vh solid rgb(36, 36, 36);
     height: 3vh;

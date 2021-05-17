@@ -10,7 +10,7 @@
               {
                   echo "<li id='preg' class='izq'>Preguntas";
                     echo "<ul id='menuPreguntas'>";
-                        echo "<a href=''><li>Crear</li></a>";
+                        echo "<a href='crearPreguntas.php'><li>Crear</li></a>";
                         echo "<a href='consultarPreguntas.php'><li>Consultar</li></a>";
                     echo "</ul>";
                   echo "</li>";

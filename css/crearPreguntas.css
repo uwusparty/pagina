@@ -1,0 +1,70 @@
+.selectWindow
+{
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.selectWindow div
+{
+    width: 50%;
+    height: 100%;
+    /* display: inline-block; */
+    float: left;
+    margin-bottom: 2vh;
+    border-bottom: 0.5vh solid black;
+    text-align: center;
+}
+
+.selectWindow div h3
+{
+    height: 100%;
+    width: 100%;
+    padding: 2vh 0;
+    cursor: pointer;
+}
+
+.selectWindow div:nth-child(1) h3
+{
+    border-right: 0.5vh solid black;
+    color: indianred;
+}
+
+.selectWindow div:nth-child(2) h3
+{
+    border-left: 0.5vh solid black;
+}
+
+/* Pestañas */
+
+div.window
+{
+    margin: 0 auto;
+    width: 60%;
+}
+
+div#es
+{
+    display: block;
+}
+
+div#en
+{
+    display: none;
+}
+
+div.window label
+{
+    width: 100%;
+    height: 3vh;
+    display: block;
+    font-size: 2vh;
+    font-weight: bold;
+}
+
+div.window input
+{
+    width: 100%;
+    height: 2vh;
+    font-size: 1.8vh;
+    margin-bottom: 1vh;
+}
