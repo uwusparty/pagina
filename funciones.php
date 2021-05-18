@@ -157,3 +157,21 @@ function loginNombre($name, $pw)
   $mysqli->close();
   return $resultado;
 }
+
+function modificar($username, $birthdate, $password, $pfp, $id_user) //MODIFICAR NO ESTA TERMINADO
+{
+    $mysqli = bbdd();
+    $stmt=$mysqli->prepare("UPDATE users SET username=?, birthdate=?, password=?, pfp=? WHERE id_user = ?");
+    $stmt->bind_param("ssssi", $username, $birthdate, $password, $pfp, $id_user);
+    $stmt->execute();
+
+    $datos = array
+    (
+        "id_user" => $mysqli->insert_id,
+        "username" => $username,
+        "pfp" => "resources/pfp.png"
+    );
+
+    $mysqli->close();
+    return $datos;
+}

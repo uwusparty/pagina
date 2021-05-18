@@ -24,7 +24,7 @@
             <h1>Perfil</h1>
         </div>
         <div id='centro'>
-            <form id="modificar" action="index.html" method="post">
+            <form id="formulario" action="perfilComprobar.php" method="post">
               <?php
                 $usuario = getUsuarioByNombre($_SESSION['username']);
                 echo "<div id='divPfp'>";
@@ -36,7 +36,7 @@
                     echo ".png";
                   }
                   echo "' alt='' id='imgPfp'>";
-                  echo "<input type='file' name='imagen' id='pfp' name='pfp' accepts='image/*'>";
+                  echo "<input type='file' name='imagen' id='pfp' name='pfp' accepts='image/*' disabled>";
                 echo "</div>";
                 echo "<div id='divText'>";
                   echo "<label for='username'>Nombre de usuario: </label>";
@@ -45,7 +45,8 @@
                   echo "<input type='date' name='birthdate' id='birthdate' value='".$usuario['birthdate']."' disabled><br>";
                   echo "<label for='password'>Contraseña: </label>";
                   echo "<input type='password' name='password' id='password' value='".$usuario['password']."' disabled><br>";
-                  echo "<input type='submit' value='Guardar cambios' disabled>";
+                  echo "<div id='formError'></div>";
+                  echo "<input type='submit' value='Editar perfil' id='submit'>";
                 echo "</div>";
               ?>
               <div class="floatClear"></div>
@@ -55,5 +56,7 @@
     <?php
         pie();
     ?>
+    <script src="js\jquery-3.6.0.min.js"></script>
+    <script src="js\perfil.js"></script>
 </body>
 </html>
