@@ -25,6 +25,16 @@
         margin-left: 0px;
         width: 100%;
     }
+    
+    select#categoriaen, select#categoriaes
+    {
+        width: 100%;
+    }
+
+    div#noCambia input
+    {
+        width: 100%;
+    }
 }
 
 @media (max-width: 750px)

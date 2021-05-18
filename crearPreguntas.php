@@ -19,7 +19,6 @@
             <h1>Crear Preguntas</h1>
         </div>
         <div id='centro'>
-
             <div class="selectWindow">
                 <div>
                     <h3 id='esp'>Español</h3>
@@ -31,6 +30,9 @@
             <div class="floatClear"></div>
 
             <div id="es" class='window'>
+                <label for="categoriaes">Categoría: </label>
+                <select name="categoriaes" id="categoriaes"></select>
+
                 <label for="preguntaes">Pregunta: </label>
                 <input type="text" name="preguntaes" id="preguntaes">
 
@@ -44,25 +46,30 @@
             </div>
 
             <div id="en" class='window'>
-                <p>bastante xd todo</p>
-            </div>
-            <!-- 
-            <label for="categoria">Categoría: </label>
-            <label for="imagen">Imagen: </label>
+                <label for="categoriaen">Category: </label>
+                <select name="categoriaen" id="categoriaen"></select>
 
-            <div>
-                <label for="preguntaen">Pregunta (Inglés): </label>
-            </div>
 
-            <div>
-                <label for="correctaes">Respuesta correcta (Español): </label>
-                <label for="correctaes">Respuesta correcta (Inglés): </label>
-            </div>
-            -->
+                <label for="preguntaen">Question: </label>
+                <input type="text" name="preguntaen" id="preguntaen">
 
+                <label for="correctaen">Correct answer: </label>
+                <input type="text" name="correctaen" id="correctaen">
+
+                <label for="incorrectaen">Wrong answers: </label>
+                <input type="text" name="incorrectaen1" id="incorrectaen1"/>
+                <input type="text" name="incorrectaen2" id="incorrectaen2"/>
+                <input type="text" name="incorrectaen3" id="incorrectaen3"/>
+            </div>
+            
+            <div id='noCambia'>
+                <label for="imagen">Imagen: </label>
+                <input type='file' name='imagen' name='Cambiar imagen' accept='image/*'>
+                <input type="submit" value="Enviar pregunta">
+            </div>
+            <div class="floatClear"></div>
         </div>
     </div>
-    <div class="floatClear"></div>
     <?php
         pie();
     ?>

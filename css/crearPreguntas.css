@@ -8,9 +8,7 @@
 {
     width: 50%;
     height: 100%;
-    /* display: inline-block; */
     float: left;
-    margin-bottom: 2vh;
     border-bottom: 0.5vh solid black;
     text-align: center;
 }
@@ -38,7 +36,7 @@
 
 div.window
 {
-    margin: 0 auto;
+    margin: 3vh auto;
     width: 60%;
 }
 
@@ -52,19 +50,46 @@ div#en
     display: none;
 }
 
-div.window label
+label
 {
     width: 100%;
     height: 3vh;
     display: block;
     font-size: 2vh;
     font-weight: bold;
+    margin-top: 2vh;
 }
 
-div.window input
+input, select
 {
     width: 100%;
     height: 2vh;
     font-size: 1.8vh;
     margin-bottom: 1vh;
+}
+
+input[type=file]
+{
+    height: 3.5vh;
+    margin-bottom: 2vh;
+    width: 50%;
+}
+
+input[type=submit]
+{
+    width: 30%;
+    height: 3vh;
+    float: right;
+}
+
+div.window select
+{
+    width: 30%;
+}
+
+div#noCambia
+{
+    width: 60%;
+    border-top: 0.5vh solid black;
+    margin: 0 auto;
 }
