@@ -16,7 +16,7 @@ $(document).ready(function()
 
                 for (let i = 0; i < arrayCategorias.length; i++)
                 {
-                    $('#categorias').append("<option val='"+arrayCategorias[i]+"'>"+arrayCategorias[i]+"</option>");                
+                    $('#categorias').append("<option val='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");                
                 }
             }
         }

@@ -93,3 +93,17 @@ div#noCambia
     border-top: 0.5vh solid black;
     margin: 0 auto;
 }
+
+p#correcto
+{
+    color: green;
+    text-align: center;
+}
+
+form > div p
+{
+    font-size: 2vh;
+    margin-bottom: 2vh;
+    color: red;
+    text-align: right;
+}

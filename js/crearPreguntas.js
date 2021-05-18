@@ -13,15 +13,13 @@ $(document).ready(function ()
                 $('#categoriaes').append("<option id='removees'></option>");
                 for (let i = 0; i < categorias.length; i++)
                 {
-                    //$('#categoriaes').append("<option>"+categorias[i].es+"</option>");
-                    $('#categoriaes').append("<option>"+categorias[i]+"</option>");
+                    $('#categoriaes').append("<option>"+categorias[i].es+"</option>");
                 }
 
                 $('#categoriaen').append("<option id='removeen'></option>");
                 for (let i = 0; i < categorias.length; i++)
                 {
-                    //$('#categoriaen').append("<option>"+categorias[i].en+"</option>");
-                    $('#categoriaen').append("<option>"+categorias[i]+"</option>");
+                    $('#categoriaen').append("<option>"+categorias[i].en+"</option>");
                 }
             }
         }
@@ -62,6 +60,51 @@ $(document).ready(function ()
             {
                 $('#en').fadeIn();
             });
+        }
+    });
+
+    $('#enviar').click(function(e)
+    {
+        var enviar = true;
+        var htmlError = "";
+        $("#formError").html("");
+        //Controlo todos los inputs en los que el usuario escribe
+        $('.window').children('input[type="text"]').each(function()
+        {
+            if($(this).val().trim() == "")
+            {
+                $(this).css("background", "red");
+                enviar = false;
+            }
+            else
+            {
+                $(this).css("background", "white");
+            }
+        });
+
+        if(!enviar)
+        {
+            htmlError = "<p>Faltan campos por rellenar.</p>";
+            $("#formError").append(htmlError); 
+        }
+
+        if($("#categoriaes :selected").text() == "")
+        {
+            htmlError = "<p>Categoría no seleccionada.</p>";
+            $("#formError").append(htmlError); 
+            enviar = false;
+        }
+
+        if($('#imagen').prop("files")[0] == null)
+        {
+            htmlError = "<p>Imagen relacionada con la pregunta no seleccionada.</p>";
+            $("#formError").append(htmlError); 
+            enviar = false;
+        }
+
+        if(!enviar)
+        {
+            e.preventDefault();
         }
     });
 });
