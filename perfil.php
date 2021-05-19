@@ -24,7 +24,7 @@
             <h1>Perfil</h1>
         </div>
         <div id='centro'>
-            <form id="formulario" action="perfilComprobar.php" method="post">
+            <form id="formulario" action="perfilComprobar.php" method="post" enctype="multipart/form-data">
               <?php
                 $usuario = getUsuarioByNombre($_SESSION['username']);
                 echo "<div id='divPfp'>";
@@ -36,7 +36,7 @@
                     echo ".png";
                   }
                   echo "' alt='' id='imgPfp'>";
-                  echo "<input type='file' name='imagen' id='pfp' name='pfp' accepts='image/*' disabled>";
+                  echo "<input type='file' name='pfp' id='pfp' accepts='image/*' disabled>";
                 echo "</div>";
                 echo "<div id='divText'>";
                   echo "<label for='username'>Nombre de usuario: </label>";

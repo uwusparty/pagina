@@ -158,7 +158,7 @@ function loginNombre($name, $pw)
   return $resultado;
 }
 
-function modificar($username, $birthdate, $password, $pfp, $id_user) //MODIFICAR NO ESTA TERMINADO
+function modificar($username, $birthdate, $password, $pfp, $id_user)
 {
     $mysqli = bbdd();
     $stmt=$mysqli->prepare("UPDATE users SET username=?, birthdate=?, password=?, pfp=? WHERE id_user = ?");
@@ -167,9 +167,8 @@ function modificar($username, $birthdate, $password, $pfp, $id_user) //MODIFICAR
 
     $datos = array
     (
-        "id_user" => $mysqli->insert_id,
         "username" => $username,
-        "pfp" => "resources/pfp.png"
+        "pfp" => $pfp
     );
 
     $mysqli->close();
