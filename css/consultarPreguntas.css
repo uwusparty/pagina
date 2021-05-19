@@ -73,6 +73,7 @@ div#numPaginas p
     width: 5vh;
     display: inline-block;
     cursor: pointer;
+    user-select: none;
 }
 
 

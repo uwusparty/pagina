@@ -16,7 +16,7 @@ $(document).ready(function()
 
                 for (let i = 0; i < arrayCategorias.length; i++)
                 {
-                    $('#categorias').append("<option val='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");                
+                    $('#categorias').append("<option val='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");
                 }
             }
         }
@@ -51,6 +51,7 @@ $(document).ready(function()
                                 insertarNumeros += "<p>"+(i+1)+"</p>";
                             }
                             $('#numPaginas').append(insertarNumeros);
+                            $("#numPaginas p:first").css("color", "indianred");
                         }
                     }
                 );
@@ -63,12 +64,12 @@ $(document).ready(function()
                         success: function (response1)
                         {
                             var arrayDatos = response1.data;
-                            for (let index = 0; index < arrayDatos.length; index++) 
+                            for (let index = 0; index < arrayDatos.length; index++)
                             {
                                 var element = arrayDatos[index];
                                 var insertarFila = "";
                                 insertarFila += "<tr>";
-                                    insertarFila += "<td><b>+</b>";
+                                    insertarFila += "<td>";
                                         insertarFila += element.question.en;
                                     insertarFila += "</td>";
                                     insertarFila += "<td>";
@@ -85,9 +86,8 @@ $(document).ready(function()
     );
 
     $('#categorias').change(function (e)
-    { 
+    {
         categoriaSel = $(this).val();
-
         $.ajax
         (
             {
@@ -128,7 +128,7 @@ $(document).ready(function()
                             datosTabla += "<td>";
                                 datosTabla += devolverNombreEstado(datosRecibidos[i].status);
                             datosTabla += "</td>";
-                        datosTabla += "</tr>";                    
+                        datosTabla += "</tr>";
                     }
                     $('tbody').html(datosTabla);
                 },
@@ -143,6 +143,8 @@ $(document).ready(function()
     $('#numPaginas').on("click", "p", function(e)
     {
         var offset = $(this).html()-1;
+        $("#numPaginas p").css("color", "black");
+        $(this).css("color", "indianred");
         $.ajax
         (
             {
@@ -162,7 +164,7 @@ $(document).ready(function()
                             datosTabla += "<td>";
                                 datosTabla += devolverNombreEstado(datosRecibidos[i].status);
                             datosTabla += "</td>";
-                        datosTabla += "</tr>";                    
+                        datosTabla += "</tr>";
                     }
                     $('tbody').html(datosTabla);
                 }
