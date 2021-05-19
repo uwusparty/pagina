@@ -18,14 +18,14 @@
     {
         display: none;
     }
-    
+
     #cuerpo #centro .apartado :not(.paraImagen)
     {
         margin-right: 0px;
         margin-left: 0px;
         width: 100%;
     }
-    
+
     select#categoriaen, select#categoriaes
     {
         width: 100%;
@@ -48,7 +48,23 @@
     {
         width: 25%;
         font-size: 1.75vh;
-    }    
-}
+    }
 
-  
+    #divPfp
+    {
+      float: none !important;
+      margin: 2vh auto !important;
+    }
+
+    #divPfp *
+    {
+      padding: 0 0 !important;
+    }
+
+    #divText
+    {
+      float: none !important;
+      width: 90% !important;
+      padding: 2vh 5% !important;
+    }
+}
