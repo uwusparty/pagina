@@ -7,7 +7,8 @@ div#tabla
 {
     width: 80%;
     margin: 5vh auto;
-    height: 75vh;
+    height: 100vh;
+    transition: 0.5s;
 }
 
 div#tabla table
@@ -101,4 +102,59 @@ div#filtros select
     width: 15vh;
     height: 2.5vh;
     font-size: 2vh;
+}
+
+
+
+
+
+tr .rechazada
+{
+  background-color: indianred;
+}
+
+tr .pendiente
+{
+  background-color: khaki;
+}
+
+tr .aceptada
+{
+  background-color: palegreen;
+}
+
+
+
+
+
+.infoPregunta
+{
+  display: none;
+  font-size: 2.5vh;
+  text-align: center;
+}
+
+.infoPregunta img
+{
+  width: 60%;
+  height: 20vh;
+  margin: 2vh 0;
+}
+
+.infoPregunta p
+{
+  width: 50%;
+  height: 7vh;
+  float: left;
+  outline: 0.1vh solid black;
+}
+
+.infoPregunta .correct
+{
+  background-color: green;
+}
+
+.infoPregunta .incorrect
+{
+  background-color: red;
 }

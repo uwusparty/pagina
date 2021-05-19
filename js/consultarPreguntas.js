@@ -71,8 +71,23 @@ $(document).ready(function()
                                 insertarFila += "<tr>";
                                     insertarFila += "<td>";
                                         insertarFila += element.question.en;
+                                        insertarFila += "<div class='infoPregunta'>";
+                                          insertarFila += "<img src='"+element.image_url+"'></br>";
+                                          insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
+                                          insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
+                                          insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
+                                          insertarFila += "<p class='incorrect'>"+element.incorrects[2].en+"</p>";
+                                        insertarFila += "</div>";
                                     insertarFila += "</td>";
-                                    insertarFila += "<td>";
+                                    if (devolverNombreEstado(element.status) == 'Pendiente') {
+                                      insertarFila += "<td class='pendiente'>";
+                                    }
+                                    else if (devolverNombreEstado(element.status) == 'Aceptada') {
+                                      insertarFila += "<td class='aceptada'>";
+                                    }
+                                    else {
+                                      insertarFila += "<td class='rechazada'>";
+                                    }
                                         insertarFila += devolverNombreEstado(element.status);
                                     insertarFila += "</td>";
                                 insertarFila += "</tr>";
@@ -160,8 +175,23 @@ $(document).ready(function()
                         datosTabla += "<tr>";
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
+                                datosTabla += "<div class='infoPregunta'>";
+                                  datosTabla += "<img src='"+datosRecibidos[i].image_url+"'></br>";
+                                  datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                datosTabla += "</div>";
                             datosTabla += "</td>";
-                            datosTabla += "<td>";
+                            if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
+                              datosTabla += "<td class='pendiente'>";
+                            }
+                            else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
+                              datosTabla += "<td class='aceptada'>";
+                            }
+                            else {
+                              datosTabla += "<td class='rechazada'>";
+                            }
                                 datosTabla += devolverNombreEstado(datosRecibidos[i].status);
                             datosTabla += "</td>";
                         datosTabla += "</tr>";
@@ -172,20 +202,39 @@ $(document).ready(function()
         );
     });
 
+    $('tbody').on("click", "tr", function()
+    {
+      var index = $(this).index()+1;
+      var shown = false;
+      if ( $('tbody tr:nth-child('+index+') div').is(":visible")) {
+        shown = true;
+      }
+      $('tbody tr div').slideUp();
+      if (shown) {
+        $('tbody tr:nth-child('+index+') div').slideUp();
+        $('#tabla').css('height', '100vh');
+      }
+      else {
+        $('tbody tr:nth-child('+index+') div').slideDown();
+        $('#tabla').css('height', '140vh');
+      }
+    });
+
     function devolverNombreEstado(numEstado)
     {
         var nombreEstado = null;
-        if(numEstado == 1)
-        {
-            nombreEstado = "Aceptada";
-        }
-        else if(numEstado == 0)
+
+        if(numEstado == -1)
         {
             nombreEstado = "Pendiente";
         }
-        else if(numEstado == -1)
+        else if(numEstado == 0)
         {
             nombreEstado = "Rechazada";
+        }
+        else if(numEstado == 1)
+        {
+            nombreEstado = "Aceptada";
         }
         return nombreEstado;
     }
