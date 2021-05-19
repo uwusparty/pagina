@@ -102,9 +102,76 @@ $(document).ready(function ()
             enviar = false;
         }
 
-        if(!enviar)
+        if(enviar)
         {
-            e.preventDefault();
+            $.ajax
+            (
+                {
+                    type: "post",
+                    url: "servicios.php",
+                    data: {'function':'getCurrentId'},
+                    success: function (response)
+                    {
+                        var idUsuario = $.parseJSON(response);
+                        console.log(idUsuario);
+
+                        jsonPregunta = 
+                        {
+                            "category":
+                            {
+                                "en": $('#categoriaen :selected').text(),
+                                "es": $('#categoriaes :selected').text()
+                            },
+                            "question": {
+                                "en": $('#preguntaen').val(),
+                                "es": $('#preguntaes').val()
+                            },
+                            "id_author": idUsuario,
+                            "status": -1,
+                            "image_url": $('#imagen').val(),
+                            "correct": {
+                                "en": $('#correctaen').val(),
+                                "es": $('#correctaes').val(),
+                                "times": 0
+                            },
+                            "incorrects": [
+                                {
+                                    "en": $('#incorrectaen1').val(),
+                                    "es": $('#incorrectaes1').val(),
+                                    "times": 0
+                                },
+                                {
+                                    "en": $('#incorrectaen2').val(),
+                                    "es": $('#incorrectaes2').val(),
+                                    "times": 0
+                                },
+                                {
+                                    "en": $('#incorrectaen3').val(),
+                                    "es": $('#incorrectaes3').val(),
+                                    "times": 0
+                                }
+                            ]
+                        }
+            
+                        $.ajax
+                        (
+                            {
+                                type: "post",
+                                url: "http://192.168.6.218:8080/trivialmi/questions/create",
+                                data: jsonPregunta,
+                                success: function (response)
+                                {
+                                    console.log(response);
+                                },
+                                error: function (err)
+                                {
+                                    console.log(err);
+                                }
+                            }
+                        );
+                    }
+                }
+            );
         }
     });
 });

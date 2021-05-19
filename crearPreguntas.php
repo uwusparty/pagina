@@ -35,7 +35,7 @@
             </div>
             <div class="floatClear"></div>
 
-            <form action="" method="post">
+            <div id='formPreguntas'>
                 <div id="es" class='window'>
                     <label for="categoriaes">Categoría: </label>
                     <select name="categoriaes" id="categoriaes"></select>
@@ -71,7 +71,8 @@
                 <div id='noCambia'>
                     <label for="imagen">Imagen: </label>
                     <input type='file' name='imagen' id='imagen' accept='image/*'>
-                    <input type="submit" value="Enviar pregunta" id='enviar'>
+                    <!-- <input type="submit" value="Enviar pregunta" id='enviar'> -->
+                    <button id='enviar'>Enviar pregunta</button>
                     <div id="formError"></div>
                 </div>
             </form>
