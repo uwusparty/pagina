@@ -39,7 +39,7 @@
             </div>
             <div class="floatClear"></div>
 
-            <div id='formPreguntas'>
+            <form id='formPreguntas' method='post' action='crearPreguntasComprobar.php' enctype="multipart/form-data">
                 <div id="es" class='window'>
                     <label for="categoriaes">Categoría: </label>
                     <select name="categoriaes" id="categoriaes"></select>
@@ -75,8 +75,8 @@
                 <div id='noCambia'>
                     <label for="imagen">Imagen: </label>
                     <input type='file' name='imagen' id='imagen' accept='image/*'>
-                    <!-- <input type="submit" value="Enviar pregunta" id='enviar'> -->
-                    <button id='enviar'>Enviar pregunta</button>
+                    <input type="submit" value="Enviar pregunta" id='enviar'>
+                    <!-- <button id='enviar'>Enviar pregunta</button> -->
                     <div id="formError"></div>
                 </div>
             </form>
