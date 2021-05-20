@@ -3,6 +3,7 @@ $(document).ready(function()
     var limite = 8;
     var idUsuario = -99;
     var categoriaSel = "All";
+    var preguntaId = -1;
     //Llenamos el Select con Options que van a ser las categorías de las preguntas de la base de datos de mongo
     $.ajax
     (
@@ -68,7 +69,7 @@ $(document).ready(function()
                             {
                                 var element = arrayDatos[index];
                                 var insertarFila = "";
-                                insertarFila += "<tr>";
+                                insertarFila += "<tr data-value="+element._id+">";
                                     insertarFila += "<td>";
                                         insertarFila += element.question.en;
                                         insertarFila += "<div class='infoPregunta'>";
@@ -77,6 +78,7 @@ $(document).ready(function()
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[2].en+"</p>";
+                                          insertarFila += "<img src='resources/modificar.png' class='modificar'>";
                                         insertarFila += "</div>";
                                     insertarFila += "</td>";
                                     if (devolverNombreEstado(element.status) == 'Pendiente') {
@@ -132,11 +134,9 @@ $(document).ready(function()
                 {
                     var datosRecibidos = response.data;
                     var datosTabla = "";
-                    console.log(datosRecibidos);
-
                     for (let i = 0; i < datosRecibidos.length; i++)
                     {
-                        datosTabla += "<tr>";
+                        datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
                                 datosTabla += "<div class='infoPregunta'>";
@@ -145,6 +145,7 @@ $(document).ready(function()
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                  datosTabla += "<img src='resources/modificar.png' class='modificar'>";
                                 datosTabla += "</div>";
                             datosTabla += "</td>";
                             if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
@@ -187,7 +188,7 @@ $(document).ready(function()
 
                     for (let i = 0; i < datosRecibidos.length; i++)
                     {
-                        datosTabla += "<tr>";
+                        datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
                                 datosTabla += "<div class='infoPregunta'>";
@@ -196,6 +197,7 @@ $(document).ready(function()
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                  datosTabla += "<img src='resources/modificar.png' class='modificar'>";
                                 datosTabla += "</div>";
                             datosTabla += "</td>";
                             if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
@@ -226,13 +228,20 @@ $(document).ready(function()
       }
       $('tbody tr div').slideUp();
       if (shown) {
+        preguntaId = -1;
         $('tbody tr:nth-child('+index+') div').slideUp();
         $('#tabla').css('height', '100vh');
       }
       else {
+        preguntaId = $(this).data('value');
         $('tbody tr:nth-child('+index+') div').slideDown();
         $('#tabla').css('height', '140vh');
       }
+    });
+
+    $('tbody').on("click", ".modificar", function()
+    {
+      $(location).attr('href', 'crearPreguntas.php?id='+preguntaId);
     });
 
     function devolverNombreEstado(numEstado)

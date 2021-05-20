@@ -158,3 +158,10 @@ tr .aceptada
 {
   background-color: red;
 }
+
+.infoPregunta .modificar
+{
+  margin-top: 1vh;
+  height: 10vh;
+  width: auto;
+}
