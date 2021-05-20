@@ -13,6 +13,10 @@
     <?php
         include "comun.php";
         encabezado();
+        if (isset( $_SESSION["id_user"] ) == false)
+        {
+          header("location: index.php");
+        }
     ?>
     <div id='cuerpo'>
         <div id='portada'>

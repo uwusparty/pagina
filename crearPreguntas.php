@@ -13,6 +13,10 @@
     <?php
         include "comun.php";
         encabezado();
+        if (isset( $_SESSION["id_user"] ) == false)
+        {
+          header("location: index.php");
+        }
     ?>
     <div id='cuerpo'>
         <div id='portada'>
@@ -67,7 +71,7 @@
                     <input type="text" name="incorrectaen2" id="incorrectaen2"/>
                     <input type="text" name="incorrectaen3" id="incorrectaen3"/>
                 </div>
-                
+
                 <div id='noCambia'>
                     <label for="imagen">Imagen: </label>
                     <input type='file' name='imagen' id='imagen' accept='image/*'>

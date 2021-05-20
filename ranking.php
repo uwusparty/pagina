@@ -19,7 +19,7 @@
             <h1>Ranking</h1>
         </div>
         <div>
-
+          
         </div>
     </div>
     <?php

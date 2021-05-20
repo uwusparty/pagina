@@ -139,8 +139,23 @@ $(document).ready(function()
                         datosTabla += "<tr>";
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
+                                datosTabla += "<div class='infoPregunta'>";
+                                  datosTabla += "<img src='"+datosRecibidos[i].image_url+"'></br>";
+                                  datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                datosTabla += "</div>";
                             datosTabla += "</td>";
-                            datosTabla += "<td>";
+                            if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
+                              datosTabla += "<td class='pendiente'>";
+                            }
+                            else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
+                              datosTabla += "<td class='aceptada'>";
+                            }
+                            else {
+                              datosTabla += "<td class='rechazada'>";
+                            }
                                 datosTabla += devolverNombreEstado(datosRecibidos[i].status);
                             datosTabla += "</td>";
                         datosTabla += "</tr>";

@@ -44,19 +44,18 @@ $(document).ready(function ()
         $(this).parent().children('div').children('h3').css("color", "black");
         $(this).children('h3').css("color", "indianred");
         var selectedWindow = $(this).children('h3').attr('id');
-
+        $('#es').finish();
+        $('#en').finish();
         if(selectedWindow == 'esp')
         {
-            $('#es').clearQueue();
-            $('#en').fadeOut(function()
+            $('#en').fadeOut(100, function()
             {
                 $('#es').fadeIn();
             });
         }
         else if(selectedWindow == 'eng')
         {
-            $('#en').clearQueue();
-            $('#es').fadeOut(function()
+            $('#es').fadeOut(100, function()
             {
                 $('#en').fadeIn();
             });
@@ -85,20 +84,20 @@ $(document).ready(function ()
         if(!enviar)
         {
             htmlError = "<p>Faltan campos por rellenar.</p>";
-            $("#formError").append(htmlError); 
+            $("#formError").append(htmlError);
         }
 
         if($("#categoriaes :selected").text() == "")
         {
             htmlError = "<p>Categoría no seleccionada.</p>";
-            $("#formError").append(htmlError); 
+            $("#formError").append(htmlError);
             enviar = false;
         }
 
         if($('#imagen').prop("files")[0] == null)
         {
             htmlError = "<p>Imagen relacionada con la pregunta no seleccionada.</p>";
-            $("#formError").append(htmlError); 
+            $("#formError").append(htmlError);
             enviar = false;
         }
 
@@ -115,7 +114,7 @@ $(document).ready(function ()
                         var idUsuario = $.parseJSON(response);
                         console.log(idUsuario);
 
-                        jsonPregunta = 
+                        jsonPregunta =
                         {
                             "category":
                             {
@@ -152,7 +151,7 @@ $(document).ready(function ()
                                 }
                             ]
                         }
-            
+
                         $.ajax
                         (
                             {

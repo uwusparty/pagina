@@ -19,6 +19,7 @@
     width: 100%;
     padding: 2vh 0;
     cursor: pointer;
+    user-select: none;
 }
 
 .selectWindow div:nth-child(1) h3
