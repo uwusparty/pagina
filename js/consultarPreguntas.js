@@ -73,13 +73,14 @@ $(document).ready(function()
                                     insertarFila += "<td>";
                                         insertarFila += element.question.en;
                                         insertarFila += "<img src='resources/arrow.png' />";
+                                        insertarFila += "<div class='floatClear'></div>";
                                         insertarFila += "<div class='infoPregunta'>";
-                                          insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'></br>";
+                                          insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'>";
+                                          insertarFila += "<img src='resources/modificar.png' class='modificar'></br>";
                                           insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[2].en+"</p>";
-                                          insertarFila += "<img src='resources/modificar.png' class='modificar'>";
                                         insertarFila += "</div>";
                                     insertarFila += "</td>";
                                     if (devolverNombreEstado(element.status) == 'Pendiente') {
@@ -95,6 +96,7 @@ $(document).ready(function()
                                     insertarFila += "</td>";
                                 insertarFila += "</tr>";
                                 $('tbody').append(insertarFila);
+                                $('tbody tr div').slideUp();
                             }
                         }
                     }
@@ -122,6 +124,7 @@ $(document).ready(function()
                         insertarNumeros += "<p>"+(i+1)+"</p>";
                     }
                     $('#numPaginas').append(insertarNumeros);
+                    $("#numPaginas p:first").css("color", "indianred");
                 }
             }
         );
@@ -140,13 +143,15 @@ $(document).ready(function()
                         datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
+                                datosTabla += "<img src='resources/arrow.png' />";
+                                datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
-                                  datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'></br>";
+                                  datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
+                                  datosTabla += "<img src='resources/modificar.png' class='modificar'></br>";
                                   datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
-                                  datosTabla += "<img src='resources/modificar.png' class='modificar'>";
                                 datosTabla += "</div>";
                             datosTabla += "</td>";
                             if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
@@ -163,6 +168,7 @@ $(document).ready(function()
                         datosTabla += "</tr>";
                     }
                     $('tbody').html(datosTabla);
+                    $('tbody tr div').slideUp();
                 },
                 error: function(err)
                 {
@@ -192,13 +198,15 @@ $(document).ready(function()
                         datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
+                                datosTabla += "<img src='resources/arrow.png' />";
+                                datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
-                                  datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'></br>";
+                                  datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
+                                  datosTabla += "<img src='resources/modificar.png' class='modificar'></br>";
                                   datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
-                                  datosTabla += "<img src='resources/modificar.png' class='modificar'>";
                                 datosTabla += "</div>";
                             datosTabla += "</td>";
                             if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
@@ -215,26 +223,31 @@ $(document).ready(function()
                         datosTabla += "</tr>";
                     }
                     $('tbody').html(datosTabla);
+                    $('tbody tr div').slideUp();
                 }
             }
         );
     });
 
-    $('tbody').on("click", "tr", function()
+    $('tbody').on("click", "img", function()
     {
-      var index = $(this).index()+1;
+      var parent = $(this).parent().parent();
+      var index = parent.index()+1;
       var shown = false;
       if ( $('tbody tr:nth-child('+index+') div').is(":visible")) {
         shown = true;
       }
       $('tbody tr div').slideUp();
+      $('tbody tr td > img').css('transform', 'none');
+      $('tbody tr > td > img').css('transform', 'none');
       if (shown) {
         preguntaId = -1;
         $('tbody tr:nth-child('+index+') div').slideUp();
         $('#tabla').css('height', '100vh');
       }
       else {
-        preguntaId = $(this).data('value');
+        preguntaId = parent.data('value');
+        $('tbody tr:nth-child('+index+') > td > img').css('transform', 'rotate(180deg)');
         $('tbody tr:nth-child('+index+') div').slideDown();
         $('#tabla').css('height', '140vh');
       }

@@ -18,14 +18,27 @@ div#tabla table
     text-align: justify;
 }
 
-tr th:nth-child(1), tr td:nth-child(1)
+tr td
+{
+    height: 3vh;
+}
 
+tr td:nth-child(1) > img
+{
+    height: 3vh;
+    display: inline-block;
+    vertical-align: middle;
+    float: right;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+tr th:nth-child(1), tr td:nth-child(1)
 {
     width: 80%;
 }
 
 tr th:nth-child(2), tr td:nth-child(2)
-
 {
     width: 20%;
 }
@@ -33,11 +46,6 @@ tr th:nth-child(2), tr td:nth-child(2)
 tr td:nth-child(2)
 {
     text-align: center;
-}
-
-tbody td
-{
-    cursor: pointer;
 }
 
 td, th
@@ -136,18 +144,19 @@ tr .aceptada
 {
   display: none;
   font-size: 2.5vh;
-  text-align: center;
 }
 
 .infoPregunta img
 {
+  display: inline-block;
   width: 60%;
   height: 20vh;
-  margin: 2vh 0;
+  margin: 2vh 0 2vh 20%;
 }
 
 .infoPregunta p
 {
+  text-align: center;
   width: 50%;
   height: 7vh;
   float: left;
@@ -166,7 +175,17 @@ tr .aceptada
 
 .infoPregunta .modificar
 {
-  margin-top: 1vh;
-  height: 10vh;
-  width: auto;
+  width: 10%;
+  height: 8vh;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  margin: 8vh 4% 0 0;
+  float: right;
+  filter: opacity(0.9);
+}
+
+.infoPregunta .modificar:hover
+{
+  filter: opacity(1);
 }

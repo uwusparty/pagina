@@ -1,0 +1,55 @@
+div#portada
+{
+    margin: 0;
+}
+
+div#tabla
+{
+    width: 80%;
+    margin: 5vh auto;
+    height: 100vh;
+    transition: 0.5s;
+}
+
+div#tabla table
+{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: justify;
+}
+
+tr th:nth-child(1), tr td:nth-child(1)
+{
+    width: 50%;
+}
+
+tr th:nth-child(2), tr td:nth-child(2), tr th:nth-child(3), tr td:nth-child(3)
+{
+    width: 25%;
+}
+
+tr td:nth-child(2)
+{
+    text-align: center;
+}
+
+td, th
+{
+    border: 0.3vh solid rgb(36, 36, 36);
+    height: 4vh;
+    padding: 1vh;
+}
+
+th
+{
+    color: white;
+    background: rgb(36, 36, 36);
+    height: 5vh;
+    border-color: black;
+    text-align: center;
+}
+
+tr:nth-child(even)
+{
+    background-color: #dddddd;
+}
