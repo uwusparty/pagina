@@ -35,6 +35,11 @@ tr td:nth-child(2)
     text-align: center;
 }
 
+tbody td
+{
+    cursor: pointer;
+}
+
 td, th
 {
     border: 0.3vh solid rgb(36, 36, 36);

@@ -72,8 +72,8 @@ $(document).ready(function()
                                 insertarFila += "<tr data-value="+element._id+">";
                                     insertarFila += "<td>";
                                         insertarFila += element.question.en;
+                                        insertarFila += "<img src='resources/arrow.png' />";
                                         insertarFila += "<div class='infoPregunta'>";
-                                        //   insertarFila += "<img src='"+element.image_url+"'></br>";
                                           insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'></br>";
                                           insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
