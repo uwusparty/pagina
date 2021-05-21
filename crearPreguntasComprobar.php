@@ -3,7 +3,8 @@ $ftp_server = "192.168.6.216";
 $ftp_user_name = "subirimagenes";
 $ftp_user_pass = "Almi123";
 $source_file = $_FILES['imagen']['tmp_name'];
-$nombreImagen = str_replace(".", "", str_replace(" ", "", microtime()));
+$nombreImagen = $_POST['imagenname'];
+
 if(strpos($_POST['categoriaes'], " ") !== false)
 {
     $categoria = strtolower(substr($_POST['categoriaes'], 0, strpos($_POST['categoriaes'], " ")));
@@ -46,4 +47,5 @@ if (!$upload)
 
 // close the FTP stream 
 ftp_close($conn_id);
+header("location: crearPreguntas.php?sc=1");
 ?>

@@ -75,6 +75,7 @@
                 <div id='noCambia'>
                     <label for="imagen">Imagen: </label>
                     <input type='file' name='imagen' id='imagen' accept='image/*'>
+                    <input type="hidden" id='imagenname' name='imagenname' value='<?=$nombreImagen = str_replace(".", "", str_replace(" ", "", microtime()));?>'>
                     <input type="submit" value="Enviar pregunta" id='enviar'>
                     <!-- <button id='enviar'>Enviar pregunta</button> -->
                     <div id="formError"></div>

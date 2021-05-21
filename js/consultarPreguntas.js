@@ -73,7 +73,8 @@ $(document).ready(function()
                                     insertarFila += "<td>";
                                         insertarFila += element.question.en;
                                         insertarFila += "<div class='infoPregunta'>";
-                                          insertarFila += "<img src='"+element.image_url+"'></br>";
+                                        //   insertarFila += "<img src='"+element.image_url+"'></br>";
+                                          insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'></br>";
                                           insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
@@ -140,7 +141,7 @@ $(document).ready(function()
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
                                 datosTabla += "<div class='infoPregunta'>";
-                                  datosTabla += "<img src='"+datosRecibidos[i].image_url+"'></br>";
+                                  datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'></br>";
                                   datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
@@ -192,7 +193,7 @@ $(document).ready(function()
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
                                 datosTabla += "<div class='infoPregunta'>";
-                                  datosTabla += "<img src='"+datosRecibidos[i].image_url+"'></br>";
+                                  datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'></br>";
                                   datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";

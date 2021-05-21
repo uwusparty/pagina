@@ -62,8 +62,10 @@ $(document).ready(function ()
         }
     });
 
-    $('#enviar').click(function(e)
-    {
+    $('form').submit(function (e)
+    { 
+        var formulario = this;
+        e.preventDefault(); 
         var enviar = true;
         var htmlError = "";
         $("#formError").html("");
@@ -101,6 +103,16 @@ $(document).ready(function ()
             enviar = false;
         }
 
+        var nombre_imagen = "";
+        if($('#categoriaes').val().includes(" "))
+        {
+            nombre_imagen = $('#categoriaes').val().toLowerCase().substring(0, $('#categoriaes').val().toLowerCase().indexOf(" ", 0))+"/"+$('#imagenname').val()+".jpg";
+        }
+        else
+        {
+            nombre_imagen = $('#categoriaes').val().toLowerCase()+"/"+$('#imagenname').val()+".jpg"
+        }
+        
         if(enviar)
         {
             $.ajax
@@ -112,7 +124,6 @@ $(document).ready(function ()
                     success: function (response)
                     {
                         var idUsuario = $.parseJSON(response);
-                        console.log(idUsuario);
 
                         jsonPregunta =
                         {
@@ -127,13 +138,14 @@ $(document).ready(function ()
                             },
                             "id_author": idUsuario,
                             "status": -1,
-                            "image_url": $('#imagen').val(),
+                            "image_url": nombre_imagen,
                             "correct": {
                                 "en": $('#correctaen').val(),
                                 "es": $('#correctaes').val(),
                                 "times": 0
                             },
-                            "incorrects": [
+                            "incorrects":
+                            [
                                 {
                                     "en": $('#incorrectaen1').val(),
                                     "es": $('#incorrectaes1').val(),
@@ -160,7 +172,8 @@ $(document).ready(function ()
                                 data: jsonPregunta,
                                 success: function (response)
                                 {
-                                    console.log(response);
+                                    console.log("Hola no soy un bucle");
+                                    formulario.submit();
                                 },
                                 error: function (err)
                                 {
