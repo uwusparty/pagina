@@ -198,7 +198,7 @@ $(document).ready(function()
                         datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
                                 datosTabla += datosRecibidos[i].question.en;
-                                datosTabla += "<img src='resources/arrow.png' />";
+                                datosTabla += "<img src='resources/arrow.png' class='arrow' />";
                                 datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
                                   datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
@@ -229,7 +229,7 @@ $(document).ready(function()
         );
     });
 
-    $('tbody').on("click", "img", function()
+    $('tbody').on("click", "tr > td > img", function()
     {
       var parent = $(this).parent().parent();
       var index = parent.index()+1;
@@ -251,11 +251,14 @@ $(document).ready(function()
         $('tbody tr:nth-child('+index+') div').slideDown();
         $('#tabla').css('height', '140vh');
       }
+      console.log(preguntaId);
     });
 
     $('tbody').on("click", ".modificar", function()
     {
-      $(location).attr('href', 'crearPreguntas.php?id='+preguntaId);
+      if (preguntaId != -1) {
+        $(location).attr('href', 'crearPreguntas.php?id='+preguntaId);
+      }
     });
 
     function devolverNombreEstado(numEstado)
