@@ -20,14 +20,17 @@
     ?>
     <div id='cuerpo'>
         <div id='portada'>
-            <h1>Crear Preguntas</h1>
-        </div>
-        <?php
-            if(isset($_GET['sc']))
+            <?php
+            if(isset($_GET['id']))
             {
-                echo "<p id='correcto'>Pregunta sugerida correctamente. Espere a que un administrador la acepte/rechace.</p>";
+                echo "<h1>Modificar Pregunta</h1>";
             }
-        ?>
+            else
+            {
+                echo "<h1>Crear Preguntas</h1>";
+            }
+            ?>
+        </div>
         <div id='centro'>
             <div class="selectWindow">
                 <div>
@@ -76,7 +79,16 @@
                     <label for="imagen">Imagen: </label>
                     <input type='file' name='imagen' id='imagen' accept='image/*'>
                     <input type="hidden" id='imagenname' name='imagenname' value='<?=$nombreImagen = str_replace(".", "", str_replace(" ", "", microtime()));?>'>
-                    <input type="submit" value="Enviar pregunta" id='enviar'>
+                    <?php
+                        if(isset($_GET['id']))
+                        {
+                            echo "<input type='submit' value='Modificar pregunta' id='modificar'>";       
+                        }
+                        else
+                        {
+                            echo "<input type='submit' value='Enviar pregunta' id='enviar'>";
+                        }
+                    ?>
                     <!-- <button id='enviar'>Enviar pregunta</button> -->
                     <div id="formError"></div>
                 </div>
@@ -88,6 +100,15 @@
         pie();
     ?>
     <script src="js\jquery-3.6.0.min.js"></script>
-    <script src="js\crearPreguntas.js"></script>
+    <?php
+        if(isset($_GET['id']))
+        {
+            echo "<script src='js\modificarPreguntas.js'></script>";
+        }
+        else
+        {
+            echo "<script src='js\crearPreguntas.js'></script>";
+        }
+    ?>
 </body>
 </html>

@@ -47,5 +47,5 @@ if (!$upload)
 
 // close the FTP stream 
 ftp_close($conn_id);
-header("location: crearPreguntas.php?sc=1");
+header("location: consultarPreguntas.php");
 ?>
