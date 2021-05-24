@@ -57,7 +57,7 @@
               <p>¿Está seguro de que quiere eliminar el usuario?</p>
               <p>Esta acción no puede ser revertida.</p>
               <button type="button" name="aceptar">Aceptar</button>
-              <button type="button" name="aceptar">Cancelar</button>
+              <button type="button" name="cancelar">Cancelar</button>
             </div>
         </div>
     </div>

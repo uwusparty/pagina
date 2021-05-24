@@ -42,6 +42,12 @@
                 <tbody></tbody>
             </table>
         </div>
+        <div id="confirmar">
+          <p>¿Está seguro de que quiere eliminar la pregunta?</p>
+          <p>Esta acción no puede ser revertida.</p>
+          <button type="button" name="aceptar">Aceptar</button>
+          <button type="button" name="cancelar">Cancelar</button>
+        </div>
     </div>
     <div class="floatClear"></div>
     <?php

@@ -185,7 +185,74 @@ tr .aceptada
   filter: opacity(0.9);
 }
 
-.infoPregunta .modificar:hover
+.infoPregunta .eliminar
+{
+  width: 10%;
+  height: 8vh;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  margin: 0;
+  float: right;
+  filter: opacity(0.9);
+}
+
+.infoPregunta .modificar:hover, .infoPregunta .eliminar.hover
 {
   filter: opacity(1);
+}
+
+#fondoConfirmar
+{
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#confirmar
+{
+  display: none;
+  left: 20%;
+  top: 55vh;
+  width: 60%;
+  height: 35vh;
+  position: absolute;
+  font-size: 4.5vh;
+  text-align: center;
+  padding: 4vh 0;
+  background: white;
+  border: 0.8vh solid black;
+}
+
+#confirmar p:nth-child(1)
+{
+  margin-top: 5vh;
+}
+
+#confirmar p:nth-child(2)
+{
+  font-weight: bolder;
+}
+
+#confirmar button
+{
+  border: solid 1px black;
+  background: white;
+  width: 40%;
+  height: 8vh;
+  font-size: 4vh;
+  margin-top: 2vh;
+  cursor: pointer;
+  user-select: none;
+  filter: brightness(1);
+}
+
+#confirmar button:hover
+{
+  background: white;
+  filter: brightness(0.8);
 }

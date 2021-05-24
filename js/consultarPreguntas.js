@@ -76,7 +76,11 @@ $(document).ready(function()
                                         insertarFila += "<div class='floatClear'></div>";
                                         insertarFila += "<div class='infoPregunta'>";
                                           insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'>";
-                                          insertarFila += "<img src='resources/modificar.png' class='modificar'></br>";
+                                          insertarFila += "<div class='modificar'>";
+                                            insertarFila += "<img src='resources/modificar.png' class='modificar'>";
+                                            insertarFila += "<img src='resources/eliminar.png' class='eliminar'></br>";
+                                          insertarFila += "</div>";
+                                          insertarFila += "<div class='floatClear'></div>";
                                           insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
