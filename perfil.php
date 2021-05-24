@@ -47,10 +47,18 @@
                   echo "<input type='password' name='password' id='password' value='".$usuario['password']."' disabled><br>";
                   echo "<div id='formError'></div>";
                   echo "<input type='submit' value='Editar perfil' id='submit'>";
+                  echo "<button type='button' name='eliminar' id='eliminar'>Eliminar usuario</button>";
                 echo "</div>";
               ?>
               <div class="floatClear"></div>
             </form>
+            <div id="fondoConfirmar"></div>
+            <div id="confirmar">
+              <p>¿Está seguro de que quiere eliminar el usuario?</p>
+              <p>Esta acción no puede ser revertida.</p>
+              <button type="button" name="aceptar">Aceptar</button>
+              <button type="button" name="aceptar">Cancelar</button>
+            </div>
         </div>
     </div>
     <?php

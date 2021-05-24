@@ -1,5 +1,7 @@
 $(document).ready(function()
 {
+  var alturaPagina = $(document).height();
+  $("#fondoConfirmar").css("height", alturaPagina);
   var previousUsername = $("#username").val();
   var previousBirthdate = new Date($("#birthdate").val());
   var previousPassword = $("#password").val();
@@ -14,16 +16,15 @@ $(document).ready(function()
     var birthdate = new Date($("#birthdate").val());
     var password = $("#password").val();
     var pfp = $("#pfp").val();
-    console.log(pfp);
     if ($("#submit").val() == "Editar perfil") {
       event.preventDefault();
       $("#submit").val("Guardar cambios");
-      $("#formulario :input:not(:last)").prop("disabled", false);
+      $("#formulario :not(#submit, #eliminar)").prop("disabled", false);
     }
     else if (username == previousUsername && birthdate.getTime() == previousBirthdate.getTime() && password == previousPassword && pfp == "") {
       event.preventDefault();
       $("#submit").val("Editar perfil");
-      $("#formulario :input:not(:last)").prop("disabled", true);
+      $("#formulario :not(#submit, #eliminar)").prop("disabled", true);
     }
     else {
       var fallo = false;
@@ -58,5 +59,36 @@ $(document).ready(function()
       }
       $("#formError").html(htmlError);
     }
+  });
+
+  $('#eliminar').on("click", function(e)
+  {
+    $('#confirmar').toggle();
+    $('#fondoConfirmar').toggle();
+  });
+
+  $('#confirmar').on("click", "button:first", function(e)
+  {
+    $.ajax
+    (
+        {
+            type: "post",
+            url: "servicios.php",
+            data: {'function':'deleteUsuario'},
+            dataType : 'json',
+            success: function (response)
+            {
+                idUsuario = $.parseJSON(response);
+                console.log(idUsuario);
+                $(location).attr('href', 'cerrarSesion.php');
+            }
+        }
+    );
+  });
+
+  $('#confirmar').on("click", "button:not(:first)", function(e)
+  {
+    $('#confirmar').toggle();
+    $('#fondoConfirmar').toggle();
   });
 });

@@ -251,7 +251,6 @@ $(document).ready(function()
         $('tbody tr:nth-child('+index+') div').slideDown();
         $('#tabla').css('height', '140vh');
       }
-      console.log(preguntaId);
     });
 
     $('tbody').on("click", ".modificar", function()

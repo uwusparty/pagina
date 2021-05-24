@@ -36,5 +36,11 @@ else if($function == 'getCurrentId')
     session_start();
     echo $_SESSION['id_user'];
 }
+else if($function == 'deleteUsuario')
+{
+    session_start();
+    deleteUsuario($_SESSION['id_user']);
+    echo 1;
+}
 
 ?>

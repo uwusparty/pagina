@@ -174,3 +174,14 @@ function modificar($username, $birthdate, $password, $pfp, $id_user)
     $mysqli->close();
     return $datos;
 }
+
+function deleteUsuario($id_user)
+{
+    $mysqli = bbdd();
+    $stmt=$mysqli->prepare("DELETE FROM users WHERE id_user = ?");
+    $stmt->bind_param("i", $id_user);
+    $stmt->execute();
+
+    $mysqli->close();
+    return 1;
+}
