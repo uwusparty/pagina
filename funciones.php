@@ -191,3 +191,49 @@ function deleteUsuario($id_user)
     $mysqli->close();
     return 1;
 }
+
+function getTop10Suma()
+{
+    $mysqli = bbdd();
+    $stmt=$mysqli->prepare("SELECT users.username, SUM(score) puntuacion, COUNT(score) FROM scores INNER JOIN users ON users.id_user = scores.id_user GROUP BY scores.id_user ORDER BY puntuacion DESC LIMIT 10");
+    $stmt->execute();
+    $stmt->bind_result($username, $suma, $partidas);
+
+    $usuarios = array();
+
+    while ($stmt->fetch())
+    {
+        $usuario = array(
+            'username' => $username,
+            'totalPuntos' => $suma,
+            'numPartidas' => $partidas
+        );
+        $usuarios[] = $usuario;
+    }
+
+    $mysqli->close();
+    return $usuarios;
+}
+
+function getTop10PartidasJugadas()
+{
+    $mysqli = bbdd();
+    $stmt=$mysqli->prepare("SELECT users.username, SUM(score) puntuacion, COUNT(score) partidas FROM scores INNER JOIN users ON users.id_user = scores.id_user GROUP BY scores.id_user ORDER BY partidas DESC LIMIT 10");
+    $stmt->execute();
+    $stmt->bind_result($username, $suma, $partidas);
+
+    $usuarios = array();
+
+    while ($stmt->fetch())
+    {
+        $usuario = array(
+            'username' => $username,
+            'totalPuntos' => $suma,
+            'numPartidas' => $partidas
+        );
+        $usuarios[] = $usuario;
+    }
+
+    $mysqli->close();
+    return $usuarios; 
+}

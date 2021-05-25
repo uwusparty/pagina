@@ -19,15 +19,19 @@
             <h1>Ranking</h1>
         </div>
         <div id='tabla'>
-            <div id="numPaginas">
-                <h3>Filtrar por:</h3>
+            <div id='filtros'>
+                <label for="categorias">Categorias: </label>
+                <select name="categorias" id="categorias">
+                    <option value="top10suma">Puntuación total</option>
+                    <option value="top10partidasjugadas">Partidas jugadas</option>
+                </select>
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>Nombre de usuario</th>
                         <th>Puntuación</th>
-                        <th>Fecha</th>
+                        <th>Núm. Partidas</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -37,5 +41,7 @@
     <?php
         pie();
     ?>
+    <script src="js\jquery-3.6.0.min.js"></script>
+    <script src="js\ranking.js"></script>
 </body>
 </html>
