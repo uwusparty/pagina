@@ -36,6 +36,18 @@ else if($function == 'getCurrentId')
     session_start();
     echo $_SESSION['id_user'];
 }
+else if($function == 'isAdmin')
+{
+    session_start();
+    if ($_SESSION['id_rol'] == 2)
+    {
+        echo true;
+    }
+    else
+    {
+        echo false;
+    }
+}
 else if($function == 'deleteUsuario')
 {
     session_start();

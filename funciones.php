@@ -1,7 +1,8 @@
 <?php
 function bbdd()
 {
-    $ip = "192.168.6.216";
+    //$ip = "192.168.6.216";
+    $ip = "88.7.26.83";
     //En el servidor de mariadb hemos cambiado /etc/mysql/mariadb.conf.d/50-server.cnf
     $mysqli = new mysqli($ip, "almi", "Almi123", "trivialmi");
     if ($mysqli->connect_errno)
@@ -26,7 +27,8 @@ function registro($email, $username, $password, $birthdate)
     (
         "id_user" => $mysqli->insert_id,
         "username" => $username,
-        "pfp" => "resources/pfp.png"
+        "pfp" => "resources/pfp.png",
+        "id_rol" => 1
     );
 
     $mysqli->close();
@@ -99,16 +101,17 @@ function getUsuarioByNombre($name)
 function loginCorreo($mail, $pw)
 {
   $mysqli = bbdd();
-  $stmt=$mysqli->prepare("SELECT id_user, email, username, password, birthdate, pfp FROM users WHERE email = ? AND password = ?");
+  $stmt=$mysqli->prepare("SELECT id_user, email, username, password, birthdate, pfp, id_rol FROM users WHERE email = ? AND password = ?");
   $stmt->bind_param("ss", $mail, $pw);
   $stmt->execute();
   $id_user = -1;
+  $id_rol = -1;
   $email = "";
   $username = "";
   $password = "";
   $birthdate = "";
   $pfp = "";
-  $stmt->bind_result($id_user, $email, $username, $password, $birthdate, $pfp);
+  $stmt->bind_result($id_user, $email, $username, $password, $birthdate, $pfp, $id_rol);
 
   $resultado = array();
 
@@ -120,7 +123,8 @@ function loginCorreo($mail, $pw)
           'username' => $username,
           'password' => $password,
           'birthdate' => $birthdate,
-          'pfp' => $pfp
+          'pfp' => $pfp,
+          'id_rol' => $id_rol
       );
   }
   $mysqli->close();
@@ -130,16 +134,17 @@ function loginCorreo($mail, $pw)
 function loginNombre($name, $pw)
 {
   $mysqli = bbdd();
-  $stmt=$mysqli->prepare("SELECT id_user, email, username, password, birthdate, pfp FROM users WHERE username = ? AND password = ?");
+  $stmt=$mysqli->prepare("SELECT id_user, email, username, password, birthdate, pfp, id_rol FROM users WHERE username = ? AND password = ?");
   $stmt->bind_param("ss", $name, $pw);
   $stmt->execute();
   $id_user = -1;
+  $id_rol = -1;
   $email = "";
   $username = "";
   $password = "";
   $birthdate = "";
   $pfp = "";
-  $stmt->bind_result($id_user, $email, $username, $password, $birthdate, $pfp);
+  $stmt->bind_result($id_user, $email, $username, $password, $birthdate, $pfp, $id_rol);
 
   $resultado = array();
 
@@ -151,7 +156,8 @@ function loginNombre($name, $pw)
           'username' => $username,
           'password' => $password,
           'birthdate' => $birthdate,
-          'pfp' => $pfp
+          'pfp' => $pfp,
+          'id_rol' => $id_rol
       );
   }
   $mysqli->close();

@@ -82,7 +82,7 @@
                     <?php
                         if(isset($_GET['id']))
                         {
-                            echo "<input type='submit' value='Modificar pregunta' id='modificar'>";       
+                            echo "<input type='submit' value='Modificar pregunta' id='modificar'>";
                         }
                         else
                         {

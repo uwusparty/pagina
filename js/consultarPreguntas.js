@@ -1,7 +1,10 @@
+var ip = "88.7.26.83";
+
 $(document).ready(function()
 {
     var limite = 8;
     var idUsuario = -99;
+    var isAdmin = false;
     var categoriaSel = "All";
     var preguntaId = -1;
     //Llenamos el Select con Options que van a ser las categorías de las preguntas de la base de datos de mongo
@@ -9,7 +12,7 @@ $(document).ready(function()
     (
         {
             type: "get",
-            url: "http://192.168.6.218:8080/trivialmi/questions/categories",
+            url: "http://"+ip+":8080/trivialmi/questions/categories",
             success: function (response)
             {
                 //No hace falta hacer el parse a la respuesta porque mongo lo devuelve como objetos
@@ -22,6 +25,16 @@ $(document).ready(function()
             }
         }
     );
+
+    $.ajax({
+        type: "post",
+        url: "servicios.php",
+        data: {'function':'isAdmin'},
+        success: function (response) {
+            isAdmin = response;
+            console.log(response);
+        }
+    });
 
     //Recibimos las preguntas del usuario que esté con la sesión iniciada
     $.ajax
@@ -40,7 +53,7 @@ $(document).ready(function()
                 (
                     {
                         type: "get",
-                        url: "http://192.168.6.218:8080/trivialmi/questions/id/"+idUsuario+"/category/All/quantity",
+                        url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/All/quantity",
                         success: function (response)
                         {
                             cantidad = response.data;
@@ -61,7 +74,7 @@ $(document).ready(function()
                 (
                     {
                         type: "get",
-                        url: "http://192.168.6.218:8080/trivialmi/questions/id/"+idUsuario+"/limit/"+limite,
+                        url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/limit/"+limite,
                         success: function (response1)
                         {
                             var arrayDatos = response1.data;
@@ -87,16 +100,40 @@ $(document).ready(function()
                                           insertarFila += "<p class='incorrect'>"+element.incorrects[2].en+"</p>";
                                         insertarFila += "</div>";
                                     insertarFila += "</td>";
-                                    if (devolverNombreEstado(element.status) == 'Pendiente') {
-                                      insertarFila += "<td class='pendiente'>";
+                                    if (isAdmin)
+                                    {
+                                        insertarFila += "<td>";
+                                            insertarFila += "<select name='selectEstado' id='selectEstado' value='3'>";
+                                                if (devolverNombreEstado(element.status) == 'Pendiente') {
+                                                    insertarFila += "<option selected='true'>Pendiente</option>";
+                                                    insertarFila += "<option>Aceptada</option>";
+                                                    insertarFila += "<option>Rechazada</option>";
+                                                }
+                                                else if (devolverNombreEstado(element.status) == 'Aceptada') {
+                                                    insertarFila += "<option>Pendiente</option>";
+                                                    insertarFila += "<option selected='true'>Aceptada</option>";
+                                                    insertarFila += "<option>Rechazada</option>";
+                                                }
+                                                else {
+                                                    insertarFila += "<option>Pendiente</option>";
+                                                    insertarFila += "<option>Aceptada</option>";
+                                                    insertarFila += "<option selected='true'>Rechazada</option>";
+                                                }
+                                            insertarFila += "</select>";
                                     }
-                                    else if (devolverNombreEstado(element.status) == 'Aceptada') {
-                                      insertarFila += "<td class='aceptada'>";
+                                    else
+                                    {
+                                        if (devolverNombreEstado(element.status) == 'Pendiente') {
+                                            insertarFila += "<td class='pendiente'>";
+                                          }
+                                          else if (devolverNombreEstado(element.status) == 'Aceptada') {
+                                            insertarFila += "<td class='aceptada'>";
+                                          }
+                                          else {
+                                            insertarFila += "<td class='rechazada'>";
+                                          }
+                                          insertarFila += devolverNombreEstado(element.status);
                                     }
-                                    else {
-                                      insertarFila += "<td class='rechazada'>";
-                                    }
-                                        insertarFila += devolverNombreEstado(element.status);
                                     insertarFila += "</td>";
                                 insertarFila += "</tr>";
                                 $('tbody').append(insertarFila);
@@ -116,7 +153,7 @@ $(document).ready(function()
         (
             {
                 type: "get",
-                url: "http://192.168.6.218:8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity",
+                url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity",
                 success: function (response)
                 {
                     cantidad = response.data;
@@ -137,7 +174,7 @@ $(document).ready(function()
         (
             {
                 type: "get",
-                url: "http://192.168.6.218:8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0",
+                url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0",
                 success: function (response)
                 {
                     var datosRecibidos = response.data;
@@ -158,16 +195,40 @@ $(document).ready(function()
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
                                 datosTabla += "</div>";
                             datosTabla += "</td>";
-                            if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                              datosTabla += "<td class='pendiente'>";
-                            }
-                            else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                              datosTabla += "<td class='aceptada'>";
-                            }
-                            else {
-                              datosTabla += "<td class='rechazada'>";
-                            }
-                                datosTabla += devolverNombreEstado(datosRecibidos[i].status);
+                            if (isAdmin)
+                                    {
+                                        datosTabla += "<td>";
+                                        datosTabla += "<select name='selectEstado' id='selectEstado'>";
+                                                if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
+                                                    datosTabla += "<option selected='true'>Pendiente</option>";
+                                                    datosTabla += "<option>Aceptada</option>";
+                                                    datosTabla += "<option>Rechazada</option>";
+                                                }
+                                                else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
+                                                    datosTabla += "<option>Pendiente</option>";
+                                                    datosTabla += "<option selected='true'>Aceptada</option>";
+                                                    datosTabla += "<option>Rechazada</option>";
+                                                }
+                                                else {
+                                                    datosTabla += "<option>Pendiente</option>";
+                                                    datosTabla += "<option>Aceptada</option>";
+                                                    datosTabla += "<option selected='true'>Rechazada</option>";
+                                                }
+                                                datosTabla += "</select>";
+                                    }
+                                    else
+                                    {
+                                        if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
+                                            datosTabla += "<td class='pendiente'>";
+                                          }
+                                          else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
+                                            datosTabla += "<td class='aceptada'>";
+                                          }
+                                          else {
+                                            datosTabla += "<td class='rechazada'>";
+                                          }
+                                          datosTabla += devolverNombreEstado(datosRecibidos[i].status);
+                                    }
                             datosTabla += "</td>";
                         datosTabla += "</tr>";
                     }
@@ -191,7 +252,7 @@ $(document).ready(function()
         (
             {
                 type: "get",
-                url: "http://192.168.6.218:8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset,
+                url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset,
                 success: function (response)
                 {
                     var datosRecibidos = response.data;
@@ -213,16 +274,40 @@ $(document).ready(function()
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
                                 datosTabla += "</div>";
                             datosTabla += "</td>";
-                            if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                              datosTabla += "<td class='pendiente'>";
-                            }
-                            else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                              datosTabla += "<td class='aceptada'>";
-                            }
-                            else {
-                              datosTabla += "<td class='rechazada'>";
-                            }
-                                datosTabla += devolverNombreEstado(datosRecibidos[i].status);
+                            if (isAdmin)
+                                    {
+                                        datosTabla += "<td>";
+                                        datosTabla += "<select name='selectEstado' id='selectEstado' value='3'>";
+                                                if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
+                                                    datosTabla += "<option selected='true'>Pendiente</option>";
+                                                    datosTabla += "<option>Aceptada</option>";
+                                                    datosTabla += "<option>Rechazada</option>";
+                                                }
+                                                else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
+                                                    datosTabla += "<option>Pendiente</option>";
+                                                    datosTabla += "<option selected='true'>Aceptada</option>";
+                                                    datosTabla += "<option>Rechazada</option>";
+                                                }
+                                                else {
+                                                    datosTabla += "<option>Pendiente</option>";
+                                                    datosTabla += "<option>Aceptada</option>";
+                                                    datosTabla += "<option selected='true'>Rechazada</option>";
+                                                }
+                                                datosTabla += "</select>";
+                                    }
+                                    else
+                                    {
+                                        if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
+                                            datosTabla += "<td class='pendiente'>";
+                                          }
+                                          else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
+                                            datosTabla += "<td class='aceptada'>";
+                                          }
+                                          else {
+                                            datosTabla += "<td class='rechazada'>";
+                                          }
+                                          datosTabla += devolverNombreEstado(datosRecibidos[i].status);
+                                    }
                             datosTabla += "</td>";
                         datosTabla += "</tr>";
                     }
@@ -262,6 +347,14 @@ $(document).ready(function()
       if (preguntaId != -1) {
         $(location).attr('href', 'crearPreguntas.php?id='+preguntaId);
       }
+    });
+
+    $(document).on('change','#selectEstado',function()
+    {
+        var parent = $(this).parent().parent();
+        var idPregunta = parent.data('value');
+        var estado = $(this).val();
+        console.log(idPregunta+" "+estado);
     });
 
     function devolverNombreEstado(numEstado)

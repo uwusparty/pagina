@@ -1,10 +1,12 @@
+var ip = "88.7.26.83";
+
 $(document).ready(function ()
 {
     $.ajax
     (
         {
             type: "get",
-            url: "http://192.168.6.218:8080/trivialmi/questions/categories",
+            url: "http://"+ip+":8080/trivialmi/questions/categories",
             success: function (response)
             {
                 categorias = response.data;
@@ -63,9 +65,9 @@ $(document).ready(function ()
     });
 
     $('form').submit(function (e)
-    { 
+    {
         var formulario = this;
-        e.preventDefault(); 
+        e.preventDefault();
         var enviar = true;
         var htmlError = "";
         $("#formError").html("");
@@ -112,7 +114,7 @@ $(document).ready(function ()
         {
             nombre_imagen = $('#categoriaes').val().toLowerCase()+"/"+$('#imagenname').val()+".jpg"
         }
-        
+
         if(enviar)
         {
             $.ajax
@@ -168,7 +170,7 @@ $(document).ready(function ()
                         (
                             {
                                 type: "post",
-                                url: "http://192.168.6.218:8080/trivialmi/questions/create",
+                                url: "http://"+ip+":8080/trivialmi/questions/create",
                                 data: jsonPregunta,
                                 success: function (response)
                                 {

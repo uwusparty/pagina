@@ -1,12 +1,14 @@
 $(document).ready(function ()
 {
+    //var ip = ""+ip+"";
+    var ip = "88.7.26.83";
     var url = window.location.href;
     var idPregunta = url.substring(url.search("id=")+3, url.length);
     $.ajax
     (
         {
             type: "get",
-            url: "http://192.168.6.218:8080/trivialmi/questions/categories",
+            url: "http://"+ip+":8080/trivialmi/questions/categories",
             success: function (response)
             {
                 categorias = response.data;
@@ -24,14 +26,14 @@ $(document).ready(function ()
                 (
                     {
                         type: "get",
-                        url: "http://192.168.6.218:8080/trivialmi/questions/"+idPregunta,
+                        url: "http://"+ip+":8080/trivialmi/questions/"+idPregunta,
                         success: function (response)
                         {
                             var datos = response.data;
 
                             $('#categoriaen :selected').text(datos.category.en);
-                            $('#categoriaes :selected').text(datos.category.es);    
-                            
+                            $('#categoriaes :selected').text(datos.category.es);
+
                             $('#preguntaen').val(datos.question.en);
                             $('#preguntaes').val(datos.question.es);
 
@@ -92,9 +94,9 @@ $(document).ready(function ()
     });
 
     $('form').submit(function (e)
-    { 
+    {
         var formulario = this;
-        e.preventDefault(); 
+        e.preventDefault();
         var enviar = true;
         var htmlError = "";
         $("#formError").html("");
@@ -124,7 +126,7 @@ $(document).ready(function ()
             $("#formError").append(htmlError);
             enviar = false;
         }
-        
+
         var nombre_imagen = "";
         if($('#categoriaes').val().includes(" "))
         {
@@ -134,7 +136,7 @@ $(document).ready(function ()
         {
             nombre_imagen = $('#categoriaes').val().toLowerCase()+"/"+$('#imagenname').val()+".jpg"
         }
-        
+
         if(enviar)
         {
             $.ajax
@@ -190,7 +192,7 @@ $(document).ready(function ()
                         (
                             {
                                 type: "put",
-                                url: "http://192.168.6.218:8080/trivialmi/questions/edit/id/"+idPregunta,
+                                url: "http://"+ip+":8080/trivialmi/questions/edit/id/"+idPregunta,
                                 data: jsonPregunta,
                                 success: function (response)
                                 {

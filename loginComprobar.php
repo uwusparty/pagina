@@ -16,6 +16,7 @@
     $_SESSION['id_user'] = $datos['id_user'];
     $_SESSION['username'] = $datos['username'];
     $_SESSION['pfp'] = $datos['pfp'];
+    $_SESSION['id_rol'] = $datos['id_rol'];
     header("location: index.php");
   }
  ?>
