@@ -2,6 +2,8 @@ var ip = "192.168.6.218";
 
 $(document).ready(function()
 {
+    var alturaPagina = $(document).height();
+    $("#fondoConfirmar").css("height", alturaPagina);
     var limite = 8;
     var idUsuario = -99;
     var isAdmin = false;
@@ -89,7 +91,7 @@ $(document).ready(function()
                                         insertarFila += "<div class='floatClear'></div>";
                                         insertarFila += "<div class='infoPregunta'>";
                                           insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'>";
-                                          insertarFila += "<div class='modificar'>";
+                                          insertarFila += "<div class='divBotones'>";
                                             insertarFila += "<img src='resources/modificar.png' class='modificar'>";
                                             insertarFila += "<img src='resources/eliminar.png' class='eliminar'></br>";
                                           insertarFila += "</div>";
@@ -102,22 +104,25 @@ $(document).ready(function()
                                     insertarFila += "</td>";
                                     if (isAdmin)
                                     {
-                                        insertarFila += "<td>";
-                                            insertarFila += "<select name='selectEstado' id='selectEstado' value='3'>";
+                                        insertarFila += "<td class='selectorCol'>";
+                                            insertarFila += "<select name='selectEstado' class='selectEstado ";
                                                 if (devolverNombreEstado(element.status) == 'Pendiente') {
-                                                    insertarFila += "<option selected='true'>Pendiente</option>";
-                                                    insertarFila += "<option>Aceptada</option>";
-                                                    insertarFila += "<option>Rechazada</option>";
+                                                  insertarFila += "pendiente'>";
+                                                    insertarFila += "<option class='pendiente' selected='true'>Pendiente</option>";
+                                                    insertarFila += "<option class='aceptada'>Aceptada</option>";
+                                                    insertarFila += "<option class='rechazada'>Rechazada</option>";
                                                 }
                                                 else if (devolverNombreEstado(element.status) == 'Aceptada') {
-                                                    insertarFila += "<option>Pendiente</option>";
-                                                    insertarFila += "<option selected='true'>Aceptada</option>";
-                                                    insertarFila += "<option>Rechazada</option>";
+                                                  insertarFila += "aceptada'>";
+                                                    insertarFila += "<option class='pendiente'>Pendiente</option>";
+                                                    insertarFila += "<option class='aceptada' selected='true'>Aceptada</option>";
+                                                    insertarFila += "<option class='rechazada'>Rechazada</option>";
                                                 }
                                                 else {
-                                                    insertarFila += "<option>Pendiente</option>";
-                                                    insertarFila += "<option>Aceptada</option>";
-                                                    insertarFila += "<option selected='true'>Rechazada</option>";
+                                                  insertarFila += "rechazada'>";
+                                                    insertarFila += "<option class='pendiente'>Pendiente</option>";
+                                                    insertarFila += "<option class='aceptada'>Aceptada</option>";
+                                                    insertarFila += "<option class='rechazada' selected='true'>Rechazada</option>";
                                                 }
                                             insertarFila += "</select>";
                                     }
@@ -188,7 +193,10 @@ $(document).ready(function()
                                 datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
                                   datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
-                                  datosTabla += "<img src='resources/modificar.png' class='modificar'></br>";
+                                  datosTabla += "<div class='divBotones'>";
+                                    datosTabla += "<img src='resources/modificar.png' class='modificar'>";
+                                    datosTabla += "<img src='resources/eliminar.png' class='eliminar'></br>";
+                                  datosTabla += "</div>";
                                   datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
@@ -197,22 +205,25 @@ $(document).ready(function()
                             datosTabla += "</td>";
                             if (isAdmin)
                                     {
-                                        datosTabla += "<td>";
-                                        datosTabla += "<select name='selectEstado' id='selectEstado'>";
+                                        datosTabla += "<td class='selectorCol'>";
+                                        datosTabla += "<select name='selectEstado' class='selectEstado ";
                                                 if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                                                    datosTabla += "<option selected='true'>Pendiente</option>";
-                                                    datosTabla += "<option>Aceptada</option>";
-                                                    datosTabla += "<option>Rechazada</option>";
+                                                  datosTabla += "pendiente'>";
+                                                    datosTabla += "<option class='pendiente' selected='true'>Pendiente</option>";
+                                                    datosTabla += "<option class='aceptada'>Aceptada</option>";
+                                                    datosTabla += "<option class='rechazada'>Rechazada</option>";
                                                 }
                                                 else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                                                    datosTabla += "<option>Pendiente</option>";
-                                                    datosTabla += "<option selected='true'>Aceptada</option>";
-                                                    datosTabla += "<option>Rechazada</option>";
+                                                  datosTabla += "aceptada'>";
+                                                    datosTabla += "<option class='pendiente'>Pendiente</option>";
+                                                    datosTabla += "<option class='aceptada' selected='true'>Aceptada</option>";
+                                                    datosTabla += "<option class='rechazada'>Rechazada</option>";
                                                 }
                                                 else {
-                                                    datosTabla += "<option>Pendiente</option>";
-                                                    datosTabla += "<option>Aceptada</option>";
-                                                    datosTabla += "<option selected='true'>Rechazada</option>";
+                                                  datosTabla += "rechazada'>";
+                                                    datosTabla += "<option class='pendiente'>Pendiente</option>";
+                                                    datosTabla += "<option class='aceptada'>Aceptada</option>";
+                                                    datosTabla += "<option class='rechazada' selected='true'>Rechazada</option>";
                                                 }
                                                 datosTabla += "</select>";
                                     }
@@ -267,7 +278,10 @@ $(document).ready(function()
                                 datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
                                   datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
-                                  datosTabla += "<img src='resources/modificar.png' class='modificar'></br>";
+                                  datosTabla += "<div class='divBotones'>";
+                                    datosTabla += "<img src='resources/modificar.png' class='modificar'>";
+                                    datosTabla += "<img src='resources/eliminar.png' class='eliminar'></br>";
+                                  datosTabla += "</div>";
                                   datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
                                   datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
@@ -276,22 +290,25 @@ $(document).ready(function()
                             datosTabla += "</td>";
                             if (isAdmin)
                                     {
-                                        datosTabla += "<td>";
-                                        datosTabla += "<select name='selectEstado' id='selectEstado' value='3'>";
+                                        datosTabla += "<td class='selectorCol'>";
+                                        datosTabla += "<select name='selectEstado' class='selectEstado ";
                                                 if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                                                    datosTabla += "<option selected='true'>Pendiente</option>";
-                                                    datosTabla += "<option>Aceptada</option>";
-                                                    datosTabla += "<option>Rechazada</option>";
+                                                  datosTabla += "pendiente'>";
+                                                    datosTabla += "<option class='pendiente' selected='true'>Pendiente</option>";
+                                                    datosTabla += "<option class='aceptada'>Aceptada</option>";
+                                                    datosTabla += "<option class='rechazada'>Rechazada</option>";
                                                 }
                                                 else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                                                    datosTabla += "<option>Pendiente</option>";
-                                                    datosTabla += "<option selected='true'>Aceptada</option>";
-                                                    datosTabla += "<option>Rechazada</option>";
+                                                  datosTabla += "aceptada'>";
+                                                    datosTabla += "<option class='pendiente'>Pendiente</option>";
+                                                    datosTabla += "<option class='aceptada' selected='true'>Aceptada</option>";
+                                                    datosTabla += "<option class='rechazada'>Rechazada</option>";
                                                 }
                                                 else {
-                                                    datosTabla += "<option>Pendiente</option>";
-                                                    datosTabla += "<option>Aceptada</option>";
-                                                    datosTabla += "<option selected='true'>Rechazada</option>";
+                                                  datosTabla += "rechazada'>";
+                                                    datosTabla += "<option class='pendiente'>Pendiente</option>";
+                                                    datosTabla += "<option class='aceptada'>Aceptada</option>";
+                                                    datosTabla += "<option class='rechazada' selected='true'>Rechazada</option>";
                                                 }
                                                 datosTabla += "</select>";
                                     }
@@ -326,19 +343,23 @@ $(document).ready(function()
       if ( $('tbody tr:nth-child('+index+') div').is(":visible")) {
         shown = true;
       }
-      $('tbody tr div').slideUp();
-      $('tbody tr td > img').css('transform', 'none');
-      $('tbody tr > td > img').css('transform', 'none');
       if (shown) {
         preguntaId = -1;
-        $('tbody tr:nth-child('+index+') div').slideUp();
         $('#tabla').css('height', '100vh');
       }
-      else {
+      $('tbody tr td > img').css('transform', 'none');
+      $('tbody tr > td > img').css('transform', 'none');
+      $('.divBotones').fadeOut();
+      $('tbody tr div').slideUp();
+      if (!shown) {
         preguntaId = parent.data('value');
         $('tbody tr:nth-child('+index+') > td > img').css('transform', 'rotate(180deg)');
         $('tbody tr:nth-child('+index+') div').slideDown();
         $('#tabla').css('height', '140vh');
+        $('.divBotones').hide();
+        $('.divBotones').fadeIn();
+        alturaPagina = $(document).height();
+        $("#fondoConfirmar").css("height", alturaPagina);
       }
     });
 
@@ -349,12 +370,66 @@ $(document).ready(function()
       }
     });
 
-    $(document).on('change','#selectEstado',function()
+    $('tbody').on("click", ".eliminar", function()
+    {
+      $('#confirmar').toggle();
+      $('#fondoConfirmar').toggle();
+      if (preguntaId == -2) {
+        $(location).attr('href', 'crearPreguntas.php?id='+preguntaId);
+      }
+    });
+
+    $('#confirmar').on("click", "button:first", function(e)
+    {
+      $.ajax
+      (
+          {
+              type: "delete",
+              url: "http://"+ip+":8080/trivialmi/questions/delete",
+              data: {'id':preguntaId},
+              dataType : 'json',
+              success: function ()
+              {
+                  $(location).attr('href', 'consultarPreguntas.php?sc=1');
+              }
+          }
+      );
+    });
+
+    $('#confirmar').on("click", "button:not(:first)", function(e)
+    {
+      $('#confirmar').toggle();
+      $('#fondoConfirmar').toggle();
+    });
+
+    $(document).on('change','.selectEstado',function()
     {
         var parent = $(this).parent().parent();
         var idPregunta = parent.data('value');
         var estado = $(this).val();
+        $(this).removeClass();
+        $(this).addClass("selectEstado");
+        if (estado == "Pendiente") {
+          estado = -1;
+          $(this).addClass("pendiente");
+        }
+        else if (estado == "Aceptada") {
+          estado = 1;
+          $(this).addClass("aceptada");
+        }
+        else {
+          estado = 0;
+          $(this).addClass("rechazada");
+        }
         console.log(idPregunta+" "+estado);
+        $.ajax
+        (
+            {
+                type: "put",
+                url: "http://"+ip+":8080/trivialmi/questions/status",
+                data: {"id":idPregunta,"status":estado}
+            }
+        );
     });
 
     function devolverNombreEstado(numEstado)

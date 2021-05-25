@@ -32,6 +32,11 @@
             <div id="numPaginas">
                 <h3>Seleccionar página</h3>
             </div>
+            <?php
+              if (isset($_GET['sc'])) {
+                echo "<p id='success'>La pregunta se ha eliminado correctamente.</p>";
+              }
+             ?>
             <table>
                 <thead>
                     <tr>
@@ -42,6 +47,7 @@
                 <tbody></tbody>
             </table>
         </div>
+        <div id="fondoConfirmar"></div>
         <div id="confirmar">
           <p>¿Está seguro de que quiere eliminar la pregunta?</p>
           <p>Esta acción no puede ser revertida.</p>

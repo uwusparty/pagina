@@ -87,4 +87,9 @@
     {
       margin-top: 0;
     }
+
+    div#numPaginas
+    {
+      margin-bottom: 12vh !important;
+    }
 }
