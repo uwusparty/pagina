@@ -1,7 +1,7 @@
 $(document).ready(function ()
 {
     //var ip = ""+ip+"";
-    var ip = "88.7.26.83";
+    var ip = "192.168.6.218";
     var url = window.location.href;
     var idPregunta = url.substring(url.search("id=")+3, url.length);
     $.ajax

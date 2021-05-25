@@ -1,4 +1,4 @@
-var ip = "88.7.26.83";
+var ip = "192.168.6.218";
 
 $(document).ready(function ()
 {
