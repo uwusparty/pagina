@@ -107,6 +107,7 @@ $(document).ready(function()
       fallo = true;
       htmlError = "<p>-La dirección de correo debe tener como mínimo una arroba y un punto.</p>";
       $("#formError").append(htmlError);
+      $("#email").css("background-color", "red");
     }
     if (username == "" || username.match("@")) {
       fallo = true;
@@ -117,18 +118,21 @@ $(document).ready(function()
         htmlError = "<p>-El usuario no puede contener @.</p>";
       }
       $("#formError").append(htmlError);
+      $("#username").css("background-color", "red");
     }
     if(!password.match(filtroMayus) || !password.match(filtroMinus) || !password.match(filtroNums) || password.match(" ") || password.length < 8)
     {
       fallo = true;
       htmlError = "<p>-La contraseña debe contener como mínimo una minúscula, una mayúscula, un número y tener una longitud de 8 carácteres o superior.</p>";
       $("#formError").append(htmlError);
+      $("#password").css("background-color", "red");
     }
     if(repassword != password)
     {
       fallo = true;
       htmlError = "<p>-Las contraseñas no coinciden.</p>";
       $("#formError").append(htmlError);
+      $("#repassword").css("background-color", "red");
     }
     if (birthdate > curDate || birthdate == "" ) {
       fallo = true;
@@ -139,6 +143,7 @@ $(document).ready(function()
         htmlError = "<p>-La fecha no puede quedar vacía.</p>";
       }
       $("#formError").append(htmlError);
+      $("#birthdate").css("background-color", "red");
     }
     if (fallo) {
       event.preventDefault();

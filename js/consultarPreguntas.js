@@ -9,6 +9,12 @@ $(document).ready(function()
     var isAdmin = false;
     var categoriaSel = "All";
     var preguntaId = -1;
+
+    var urlTodasCantidad;
+    var urlTodasPreguntas;
+    var urlCategoriaCantidad;
+    var urlCategoriaPreguntas;
+    var urlPaginaPreguntas;
     //Llenamos el Select con Options que van a ser las categorías de las preguntas de la base de datos de mongo
     $.ajax
     (
@@ -49,13 +55,20 @@ $(document).ready(function()
             success: function (response)
             {
                 idUsuario = $.parseJSON(response);
-
+                if (isAdmin) {
+                  urlTodasCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/All/quantity";
+                  urlTodasPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/limit/"+limite;
+                }
+                else {
+                  urlTodasCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/All/quantity";
+                  urlTodasPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/limit/"+limite;
+                }
                 //Recibimos la cantidad de preguntas que tiene el usuario
                 $.ajax
                 (
                     {
                         type: "get",
-                        url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/All/quantity",
+                        url: urlTodasCantidad,
                         success: function (response)
                         {
                             cantidad = response.data;
@@ -76,18 +89,18 @@ $(document).ready(function()
                 (
                     {
                         type: "get",
-                        url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/limit/"+limite,
-                        success: function (response1)
+                        url: urlTodasPreguntas,
+                        success: function (response)
                         {
-                            var arrayDatos = response1.data;
+                            var arrayDatos = response.data;
                             for (let index = 0; index < arrayDatos.length; index++)
                             {
                                 var element = arrayDatos[index];
                                 var insertarFila = "";
                                 insertarFila += "<tr data-value="+element._id+">";
                                     insertarFila += "<td>";
-                                        insertarFila += element.question.en;
-                                        insertarFila += "<img src='resources/arrow.png' />";
+                                        insertarFila += "<p class='textoPregunta'>"+element.question.en+"</p>";
+                                        insertarFila += "<img class='desplegable' src='resources/arrow.png' />";
                                         insertarFila += "<div class='floatClear'></div>";
                                         insertarFila += "<div class='infoPregunta'>";
                                           insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'>";
@@ -154,11 +167,19 @@ $(document).ready(function()
     $('#categorias').change(function (e)
     {
         categoriaSel = $(this).val();
+        if (isAdmin) {
+          urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
+          urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+        }
+        else {
+          urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
+          urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+        }
         $.ajax
         (
             {
                 type: "get",
-                url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity",
+                url: urlCategoriaCantidad,
                 success: function (response)
                 {
                     cantidad = response.data;
@@ -179,7 +200,7 @@ $(document).ready(function()
         (
             {
                 type: "get",
-                url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0",
+                url: urlCategoriaPreguntas,
                 success: function (response)
                 {
                     var datosRecibidos = response.data;
@@ -188,8 +209,8 @@ $(document).ready(function()
                     {
                         datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
-                                datosTabla += datosRecibidos[i].question.en;
-                                datosTabla += "<img src='resources/arrow.png' />";
+                                datosTabla += "<p class='textoPregunta'>"+datosRecibidos[i].question.en+"</p>";
+                                datosTabla += "<img class='desplegable' src='resources/arrow.png' />";
                                 datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
                                   datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
@@ -257,13 +278,19 @@ $(document).ready(function()
     $('#numPaginas').on("click", "p", function(e)
     {
         var offset = $(this).html()-1;
+        if (isAdmin) {
+          urlPaginaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
+        }
+        else {
+          urlPaginaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
+        }
         $("#numPaginas p").css("color", "black");
         $(this).css("color", "indianred");
         $.ajax
         (
             {
                 type: "get",
-                url: "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset,
+                url: urlPaginaPreguntas,
                 success: function (response)
                 {
                     var datosRecibidos = response.data;
@@ -273,8 +300,8 @@ $(document).ready(function()
                     {
                         datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
-                                datosTabla += datosRecibidos[i].question.en;
-                                datosTabla += "<img src='resources/arrow.png' class='arrow' />";
+                                datosTabla += "<p class='textoPregunta'>"+datosRecibidos[i].question.en+"</p>";
+                                datosTabla += "<img class='desplegable' src='resources/arrow.png' class='arrow' />";
                                 datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
                                   datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";

@@ -290,3 +290,14 @@ tr .selectEstado
   text-align: center;
   margin-bottom: 3vh;
 }
+
+.textoPregunta
+{
+  width: 80%;
+}
+
+.desplegable
+{
+  width: 10%;
+  height: 4vh !important;
+}
