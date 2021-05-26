@@ -310,4 +310,6 @@ tr .selectEstado
   vertical-align: middle;
   width: 6%;
   height: 4vh !important;
+  user-select: none;
+  cursor: pointer;
 }

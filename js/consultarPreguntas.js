@@ -77,12 +77,28 @@ $(document).ready(function()
                             cantPaginas = Math.ceil(cantidad/limite);
                             $('#numPaginas').html("");
                             insertarNumeros = "<h3>Seleccionar página</h3>";
-                            for (let i = 0; i < cantPaginas; i++)
-                            {
-                                insertarNumeros += "<p>"+(i+1)+"</p>";
+                            if (offset > 1) {
+                              insertarNumeros += "<p><<</p>";
+                              insertarNumeros += "<p><</p>";
+                            }
+                            else {
+                              insertarNumeros += "<p>||</p>";
+                              insertarNumeros += "<p>|</p>";
+                            }
+                            insertarNumeros += "<p>"+offset+"</p>";
+
+                            if (offset < cantPaginas-1) {
+                              insertarNumeros += "<p>></p>";
+                              insertarNumeros += "<p>>></p>";
+                            }
+                            else {
+                              insertarNumeros += "<p>|</p>";
+                              insertarNumeros += "<p>||</p>";
                             }
                             $('#numPaginas').append(insertarNumeros);
-                            $("#numPaginas p:first").css("color", "indianred");
+                            $("#numPaginas p:nth-child(4)").css("color", "indianred");
+                            $("#numPaginas p:nth-child(4)").css("cursor", "auto");
+                            $("#numPaginas p:nth-child(4)").css("font-weight", "bold");
                         }
                     }
                 );
@@ -314,12 +330,32 @@ $(document).ready(function()
                     cantPaginas = Math.ceil(cantidad/limite);
                     $('#numPaginas').html("");
                     insertarNumeros = "<h3>Seleccionar página</h3>";
-                    for (let i = 0; i < cantPaginas; i++)
+                    if (offset > 1) {
+                      insertarNumeros += "<p><<</p>";
+                      insertarNumeros += "<p><</p>";
+                    }
+                    else {
+                      insertarNumeros += "<p>||</p>";
+                      insertarNumeros += "<p>|</p>";
+                    }
+                    insertarNumeros += "<p>"+offset+"</p>";
+
+                    if (offset < cantPaginas-1) {
+                      insertarNumeros += "<p>></p>";
+                      insertarNumeros += "<p>>></p>";
+                    }
+                    else {
+                      insertarNumeros += "<p>|</p>";
+                      insertarNumeros += "<p>||</p>";
+                    }
+                    /*for (let i = 0; i < cantPaginas; i++)
                     {
                         insertarNumeros += "<p>"+(i+1)+"</p>";
-                    }
+                    }*/
                     $('#numPaginas').append(insertarNumeros);
-                    $("#numPaginas p:first").css("color", "indianred");
+                    $("#numPaginas p:nth-child(4)").css("color", "indianred");
+                    $("#numPaginas p:nth-child(4)").css("cursor", "auto");
+                    $("#numPaginas p:nth-child(4)").css("font-weight", "bold");
                 }
             }
         );
@@ -422,15 +458,70 @@ $(document).ready(function()
 
     $('#numPaginas').on("click", "p", function(e)
     {
-        offset = $(this).html()-1;
-        if (isAdmin) {
-          urlPaginaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
+        if ($(this).text() == '<<') {
+          offset = 1;
+        }
+        else if ($(this).text() == '<') {
+          offset -= 1;
+        }
+        else if ($(this).text() == '>') {
+          offset += 1;
+        }
+        else if ($(this).text() == '>>') {
+          offset = cantPaginas-1;
         }
         else {
+          return;
+        }
+        if (isAdmin) {
+          urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
+          urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
           urlPaginaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
         }
-        $("#numPaginas p").css("color", "black");
-        $(this).css("color", "indianred");
+        else {
+          urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
+          urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+          urlPaginaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
+        }
+        $.ajax
+        (
+            {
+                type: "get",
+                url: urlCategoriaCantidad,
+                success: function (response)
+                {
+                    cantidad = response.data;
+                    cantPaginas = Math.ceil(cantidad/limite);
+                    $('#numPaginas').html("");
+                    insertarNumeros = "<h3>Seleccionar página</h3>";
+                    if (offset > 1) {
+                      insertarNumeros += "<p><<</p>";
+                      insertarNumeros += "<p><</p>";
+                    }
+                    else {
+                      insertarNumeros += "<p>||</p>";
+                      insertarNumeros += "<p>|</p>";
+                    }
+                    insertarNumeros += "<p>"+offset+"</p>";
+                    if (offset < cantPaginas-1) {
+                      insertarNumeros += "<p>></p>";
+                      insertarNumeros += "<p>>></p>";
+                    }
+                    else {
+                      insertarNumeros += "<p>|</p>";
+                      insertarNumeros += "<p>||</p>";
+                    }
+                    /*for (let i = 0; i < cantPaginas; i++)
+                    {
+                        insertarNumeros += "<p>"+(i+1)+"</p>";
+                    }*/
+                    $('#numPaginas').append(insertarNumeros);
+                    $("#numPaginas p:nth-child(4)").css("color", "indianred");
+                    $("#numPaginas p:nth-child(4)").css("cursor", "auto");
+                    $("#numPaginas p:nth-child(4)").css("font-weight", "bold");
+                }
+            }
+        );
         $.ajax
         (
             {
@@ -615,7 +706,6 @@ $(document).ready(function()
           estado = 0;
           $(this).addClass("rechazada");
         }
-        console.log(idPregunta+" "+estado);
         $.ajax
         (
             {

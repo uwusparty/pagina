@@ -34,14 +34,14 @@
                 </div>
                 <div>
                     <h2>¿Qué es Trivialmi?</h2>
-                    <!-- <p>Trivialmi es un juego de preguntas de un solo jugador totalmente gratuito. </p> --> 
+                    <!-- <p>Trivialmi es un juego de preguntas de un solo jugador totalmente gratuito. </p> -->
                     <p>Trivialmi es un juego de preguntas no lineal en el que escribes tus propias preguntas sin limitarte a seguir un camino prefijado. Participa en un amplio mundo abierto con seis categorías únicas, todo cuanto hagas tendrá su repercusíon en el mundo. Con sus preguntas orientadas al jugador de Trivialmi los jugadores crean practicamente todo tipo de preguntas a partir de los recursos que consiguen.</p>
                 </div>
             </div>
             <div class='apartado'>
                 <div>
                     <h2>¡Únete a nosotros!</h2>
-                    <p>Trivialmi es el puto mejor juego 👊 👊 Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dolorem repellendus, dolor ullam harum beatae tempore et iste eaque officia asperiores! Porro laudantium aperiam vitae enim dolore repellat facere illum! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur molestiae, fugiat exercitationem natus placeat nihil eius eos neque pariatur consectetur nesciunt suscipit ullam molestias voluptates odio dolore nostrum numquam aspernatur? lore</p>
+                    <p>Además de aportar ideas para preguntas, tambien buscamos nuevos integrantes para el grupo de desarrollo de UwU's Party Entertainment. Si estás interesado en esta oferta, asegurate de enviar tu curriculum a uwusparty@gmail.com o presentante en nuestras oficinas en la calle Lehendakari Aguirre. Procura proporcionarnos toda la información posible sobre ti para tener mayor oportunidad de ser seleccionado, y sobre todo, ¡buena suerte!</p>
                 </div>
                 <div class='paraImagen'>
                     <img src='resources/ruleta.png' alt='Imagen de ruleta'>
