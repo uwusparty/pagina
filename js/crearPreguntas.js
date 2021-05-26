@@ -69,14 +69,18 @@ $(document).ready(function ()
         var formulario = this;
         e.preventDefault();
         var enviar = true;
+        var spanish = false;
+        var english = false;
         var htmlError = "";
         $("#formError").html("");
+
         //Controlo todos los inputs en los que el usuario escribe
-        $('.window').children('input[type="text"]').each(function()
+        $('#es').children('input[type="text"]').each(function()
         {
             if($(this).val().trim() == "")
             {
                 $(this).css("background", "red");
+                spanish = true;
                 enviar = false;
             }
             else
@@ -85,22 +89,42 @@ $(document).ready(function ()
             }
         });
 
-        if(!enviar)
+        $('#en').children('input[type="text"]').each(function()
         {
-            htmlError = "<p>Faltan campos por rellenar.</p>";
+            if($(this).val().trim() == "")
+            {
+                $(this).css("background", "red");
+                english = true;
+                enviar = false;
+            }
+            else
+            {
+                $(this).css("background", "white");
+            }
+        });
+
+        if(spanish)
+        {
+            htmlError = "<p>-Faltan campos por rellenar en la pestaña en español.</p>";
+            $("#formError").append(htmlError);
+        }
+
+        if(english)
+        {
+            htmlError = "<p>-Faltan campos por rellenar en la pestaña en inglés.</p>";
             $("#formError").append(htmlError);
         }
 
         if($("#categoriaes :selected").text() == "")
         {
-            htmlError = "<p>Categoría no seleccionada.</p>";
+            htmlError = "<p>-Categoría no seleccionada.</p>";
             $("#formError").append(htmlError);
             enviar = false;
         }
 
         if($('#imagen').prop("files")[0] == null)
         {
-            htmlError = "<p>Imagen relacionada con la pregunta no seleccionada.</p>";
+            htmlError = "<p>-Imagen relacionada con la pregunta no seleccionada.</p>";
             $("#formError").append(htmlError);
             enviar = false;
         }
@@ -174,7 +198,6 @@ $(document).ready(function ()
                                 data: jsonPregunta,
                                 success: function (response)
                                 {
-                                    console.log("Hola no soy un bucle");
                                     formulario.submit();
                                 },
                                 error: function (err)

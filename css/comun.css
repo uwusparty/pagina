@@ -146,3 +146,10 @@
     margin: 5vh auto;
     border: 0.8vh solid black;
 }
+
+div#formError p
+{
+    font-size: 2vh;
+    margin-bottom: 2vh;
+    color: red;
+}

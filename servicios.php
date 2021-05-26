@@ -62,7 +62,9 @@ else if($function == 'top10suma')
 }
 else if($function == 'top10avg')
 {
-
+    $top = getTop10Avg();
+    $topDevolver = json_encode($top, JSON_UNESCAPED_UNICODE);
+    echo $topDevolver;
 }
 else if($function == 'top10partidasjugadas')
 {

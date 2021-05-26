@@ -31,7 +31,9 @@
                         echo "<label for='password'>Contraseña: </label>";
                         echo "<input type='password' name='password' id='password'>";
                         if (isset($_GET['err']) == true) {
-                          echo "<p id=''>La combinación del usuario y la contraseña no coinciden con ninguna cuenta existente.</p>";
+                            echo "<div id='formError'>";
+                                echo "<p>La combinación del usuario y la contraseña no coinciden con ninguna cuenta existente.</p>";
+                            echo "</div>";
                         }
                      ?>
                     <input type="submit" value="Iniciar sesión">

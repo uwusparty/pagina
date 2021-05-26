@@ -20,10 +20,11 @@
         </div>
         <div id='tabla'>
             <div id='filtros'>
-                <label for="categorias">Categorias: </label>
+                <label for="categorias">Mostrar: </label>
                 <select name="categorias" id="categorias">
                     <option value="top10suma">Puntuación total</option>
                     <option value="top10partidasjugadas">Partidas jugadas</option>
+                    <option value="top10avg">Puntación media</option>
                 </select>
             </div>
             <table>

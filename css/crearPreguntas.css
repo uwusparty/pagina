@@ -91,7 +91,6 @@ div.window select
 div#noCambia
 {
     width: 60%;
-    border-top: 0.5vh solid black;
     margin: 0 auto;
 }
 
@@ -107,4 +106,10 @@ div#formPreguntas > div p
     margin-bottom: 2vh;
     color: red;
     text-align: right;
+}
+
+div#lineaAnder
+{
+    outline: 0.3vh solid black;
+    margin-bottom: 6vh;
 }

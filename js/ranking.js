@@ -1,38 +1,47 @@
 $(document).ready(function ()
 {
+    peticionAjax("top10suma");
+
+    $('#categorias').change(function (e)
+    {
+        peticionAjax($(this).val());
+    });
+});
+
+function peticionAjax(nombreFuncion)
+{
     $.ajax
     (
         {
         type: "post",
         url: "servicios.php",
-        data: {'function':"top10suma"},
+        data: {'function':nombreFuncion},
         success: function (response)
         {
-            usuarios = $.parseJSON(response);
-            console.log(usuarios);
-            var insertarHTML = "";
-
-            for (let index = 0; index < usuarios.length; index++)
-            {
-                insertarHTML+= "<tr>";
-                    insertarHTML+= "<td>";
-                        insertarHTML+= usuarios[index].username
-                    insertarHTML+= "</td>";
-                    insertarHTML+= "<td>";
-                        insertarHTML+= usuarios[index].totalPuntos
-                    insertarHTML+= "</td>";
-                    insertarHTML+= "<td>";
-                        insertarHTML+= usuarios[index].numPartidas
-                    insertarHTML+= "</td>";
-                insertarHTML+= "</tr>";
-            }
-
-            $('tbody').html(insertarHTML);
+            datos = $.parseJSON(response);
+            cambiarDatosTabla(datos);
         }
     });
+}
 
-    $('#categorias').change(function (e)
+function cambiarDatosTabla(datos)
+{
+    var insertarHTML = "";
+
+    for (let index = 0; index < datos.length; index++)
     {
-        console.log($(this).val());
-    });
-});
+        insertarHTML+= "<tr>";
+            insertarHTML+= "<td>";
+                insertarHTML+= datos[index].username;
+            insertarHTML+= "</td>";
+            insertarHTML+= "<td>";
+                insertarHTML+= datos[index].totalPuntos;
+            insertarHTML+= "</td>";
+            insertarHTML+= "<td>";
+                insertarHTML+= datos[index].numPartidas;
+            insertarHTML+= "</td>";
+        insertarHTML+= "</tr>";
+    }
+
+    $('tbody').html(insertarHTML);
+}

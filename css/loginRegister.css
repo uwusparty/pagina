@@ -31,10 +31,3 @@ form > div input[type=submit]
     height: 3vh;
     font-size: 2vh;
 }
-
-form > div p
-{
-    font-size: 2vh;
-    margin-bottom: 2vh;
-    color: red;
-}

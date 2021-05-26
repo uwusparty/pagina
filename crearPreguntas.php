@@ -75,6 +75,8 @@
                     <input type="text" name="incorrectaen3" id="incorrectaen3"/>
                 </div>
 
+                <div id="lineaAnder"></div>
+
                 <div id='noCambia'>
                     <label for="imagen">Imagen: </label>
                     <input type='file' name='imagen' id='imagen' accept='image/*'>
@@ -89,7 +91,6 @@
                             echo "<input type='submit' value='Enviar pregunta' id='enviar'>";
                         }
                     ?>
-                    <!-- <button id='enviar'>Enviar pregunta</button> -->
                     <div id="formError"></div>
                 </div>
             </form>

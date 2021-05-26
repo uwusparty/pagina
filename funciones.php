@@ -237,3 +237,26 @@ function getTop10PartidasJugadas()
     $mysqli->close();
     return $usuarios; 
 }
+
+function getTop10Avg()
+{
+    $mysqli = bbdd();
+    $stmt=$mysqli->prepare("SELECT users.username, ROUND(AVG(score)) puntuacion, COUNT(score) partidas FROM scores INNER JOIN users ON users.id_user = scores.id_user GROUP BY scores.id_user ORDER BY puntuacion DESC LIMIT 10");
+    $stmt->execute();
+    $stmt->bind_result($username, $avg, $partidas);
+
+    $usuarios = array();
+
+    while ($stmt->fetch())
+    {
+        $usuario = array(
+            'username' => $username,
+            'totalPuntos' => $avg,
+            'numPartidas' => $partidas
+        );
+        $usuarios[] = $usuario;
+    }
+
+    $mysqli->close();
+    return $usuarios; 
+}
