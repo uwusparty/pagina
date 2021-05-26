@@ -7,7 +7,9 @@ $(document).ready(function()
     var limite = 8;
     var idUsuario = -99;
     var isAdmin = false;
+    var idiomaSel = "es";
     var categoriaSel = "All";
+    var offset = 1;
     var preguntaId = -1;
 
     var urlTodasCantidad;
@@ -99,8 +101,15 @@ $(document).ready(function()
                                 var insertarFila = "";
                                 insertarFila += "<tr data-value="+element._id+">";
                                     insertarFila += "<td>";
-                                        insertarFila += "<p class='textoPregunta'>"+element.question.en+"</p>";
-                                        insertarFila += "<img class='desplegable' src='resources/arrow.png' />";
+                                        insertarFila += "<div class='textoPregunta'>";
+                                            if (idiomaSel == "en") {
+                                              insertarFila += "<p>"+element.question.en+"</p>";
+                                            }
+                                            else {
+                                              insertarFila += "<p>"+element.question.es+"</p>"
+                                            }
+                                            insertarFila += "<img class='desplegable' src='resources/arrow.png' />";
+                                        insertarFila += "</div>";
                                         insertarFila += "<div class='floatClear'></div>";
                                         insertarFila += "<div class='infoPregunta'>";
                                           insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'>";
@@ -109,10 +118,19 @@ $(document).ready(function()
                                             insertarFila += "<img src='resources/eliminar.png' class='eliminar'></br>";
                                           insertarFila += "</div>";
                                           insertarFila += "<div class='floatClear'></div>";
-                                          insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
-                                          insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
-                                          insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
-                                          insertarFila += "<p class='incorrect'>"+element.incorrects[2].en+"</p>";
+                                          if (idiomaSel == "en") {
+                                              insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
+                                              insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
+                                              insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
+                                              insertarFila += "<p class='incorrect'>"+element.incorrects[2].en+"</p>";
+                                          }
+                                          else {
+                                              insertarFila += "<p class='correct'>"+element.correct.es+"</p>";
+                                              insertarFila += "<p class='incorrect'>"+element.incorrects[0].es+"</p>";
+                                              insertarFila += "<p class='incorrect'>"+element.incorrects[1].es+"</p>";
+                                              insertarFila += "<p class='incorrect'>"+element.incorrects[2].es+"</p>";
+                                          }
+
                                         insertarFila += "</div>";
                                     insertarFila += "</td>";
                                     if (isAdmin)
@@ -155,7 +173,9 @@ $(document).ready(function()
                                     insertarFila += "</td>";
                                 insertarFila += "</tr>";
                                 $('tbody').append(insertarFila);
-                                $('tbody tr div').slideUp();
+                                $('tbody tr .infoPregunta').slideUp( function(){
+                                  $('this .textoPregunta').css('height','100%');
+                                });
                             }
                         }
                     }
@@ -163,6 +183,114 @@ $(document).ready(function()
             }
         }
     );
+
+    $('#idioma').change(function()
+    {
+      idiomaSel = $(this).val();
+      if (isAdmin) {
+        urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
+        urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+      }
+      else {
+        urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
+        urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+      }
+
+      $.ajax
+      (
+          {
+              type: "get",
+              url: urlCategoriaPreguntas,
+              success: function (response)
+              {
+                  var datosRecibidos = response.data;
+                  var datosTabla = "";
+                  for (let i = 0; i < datosRecibidos.length; i++)
+                  {
+                      datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
+                          datosTabla += "<td>";
+                              datosTabla += "<div class='textoPregunta'>";
+                                  if (idiomaSel == "en") {
+                                    datosTabla += "<p>"+datosRecibidos[i].question.en+"</p>";
+                                  }
+                                  else {
+                                    datosTabla += "<p>"+datosRecibidos[i].question.es+"</p>";
+                                  }
+                                  datosTabla += "<img class='desplegable' src='resources/arrow.png' />";
+                              datosTabla += "</div>";
+                              datosTabla += "<div class='floatClear'></div>";
+                              datosTabla += "<div class='infoPregunta'>";
+                                datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
+                                datosTabla += "<div class='divBotones'>";
+                                  datosTabla += "<img src='resources/modificar.png' class='modificar'>";
+                                  datosTabla += "<img src='resources/eliminar.png' class='eliminar'></br>";
+                                datosTabla += "</div>";
+                                if (idiomaSel == "en") {
+                                  datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                }
+                                else {
+                                  datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.es+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].es+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].es+"</p>";
+                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].es+"</p>";
+                                }
+                              datosTabla += "</div>";
+                          datosTabla += "</td>";
+                          if (isAdmin)
+                                  {
+                                      datosTabla += "<td class='selectorCol'>";
+                                      datosTabla += "<select name='selectEstado' class='selectEstado ";
+                                              if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
+                                                datosTabla += "pendiente'>";
+                                                  datosTabla += "<option class='pendiente' selected='true'>Pendiente</option>";
+                                                  datosTabla += "<option class='aceptada'>Aceptada</option>";
+                                                  datosTabla += "<option class='rechazada'>Rechazada</option>";
+                                              }
+                                              else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
+                                                datosTabla += "aceptada'>";
+                                                  datosTabla += "<option class='pendiente'>Pendiente</option>";
+                                                  datosTabla += "<option class='aceptada' selected='true'>Aceptada</option>";
+                                                  datosTabla += "<option class='rechazada'>Rechazada</option>";
+                                              }
+                                              else {
+                                                datosTabla += "rechazada'>";
+                                                  datosTabla += "<option class='pendiente'>Pendiente</option>";
+                                                  datosTabla += "<option class='aceptada'>Aceptada</option>";
+                                                  datosTabla += "<option class='rechazada' selected='true'>Rechazada</option>";
+                                              }
+                                              datosTabla += "</select>";
+                                  }
+                                  else
+                                  {
+                                      if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
+                                          datosTabla += "<td class='pendiente'>";
+                                        }
+                                        else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
+                                          datosTabla += "<td class='aceptada'>";
+                                        }
+                                        else {
+                                          datosTabla += "<td class='rechazada'>";
+                                        }
+                                        datosTabla += devolverNombreEstado(datosRecibidos[i].status);
+                                  }
+                          datosTabla += "</td>";
+                      datosTabla += "</tr>";
+                  }
+                  $('tbody').html(datosTabla);
+                  $('tbody tr .infoPregunta').slideUp( function(){
+                    $('this .textoPregunta').css('height','100%');
+                  });
+              },
+              error: function(err)
+              {
+                  console.log(err);
+              }
+          }
+      );
+    });
 
     $('#categorias').change(function (e)
     {
@@ -209,8 +337,15 @@ $(document).ready(function()
                     {
                         datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
-                                datosTabla += "<p class='textoPregunta'>"+datosRecibidos[i].question.en+"</p>";
-                                datosTabla += "<img class='desplegable' src='resources/arrow.png' />";
+                                datosTabla += "<div class='textoPregunta'>";
+                                    if (idiomaSel == "en") {
+                                      datosTabla += "<p>"+datosRecibidos[i].question.en+"</p>";
+                                    }
+                                    else {
+                                      datosTabla += "<p>"+datosRecibidos[i].question.es+"</p>";
+                                    }
+                                    datosTabla += "<img class='desplegable' src='resources/arrow.png' />";
+                                datosTabla += "</div>";
                                 datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
                                   datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
@@ -218,10 +353,18 @@ $(document).ready(function()
                                     datosTabla += "<img src='resources/modificar.png' class='modificar'>";
                                     datosTabla += "<img src='resources/eliminar.png' class='eliminar'></br>";
                                   datosTabla += "</div>";
-                                  datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                  if (idiomaSel == "en") {
+                                    datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
+                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
+                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
+                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                  }
+                                  else {
+                                    datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.es+"</p>";
+                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].es+"</p>";
+                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].es+"</p>";
+                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].es+"</p>";
+                                  }
                                 datosTabla += "</div>";
                             datosTabla += "</td>";
                             if (isAdmin)
@@ -265,7 +408,9 @@ $(document).ready(function()
                         datosTabla += "</tr>";
                     }
                     $('tbody').html(datosTabla);
-                    $('tbody tr div').slideUp();
+                    $('tbody tr .infoPregunta').slideUp( function(){
+                      $('this .textoPregunta').css('height','100%');
+                    });
                 },
                 error: function(err)
                 {
@@ -277,7 +422,7 @@ $(document).ready(function()
 
     $('#numPaginas').on("click", "p", function(e)
     {
-        var offset = $(this).html()-1;
+        offset = $(this).html()-1;
         if (isAdmin) {
           urlPaginaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
         }
@@ -300,8 +445,15 @@ $(document).ready(function()
                     {
                         datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
                             datosTabla += "<td>";
-                                datosTabla += "<p class='textoPregunta'>"+datosRecibidos[i].question.en+"</p>";
-                                datosTabla += "<img class='desplegable' src='resources/arrow.png' class='arrow' />";
+                                datosTabla += "<div class='textoPregunta'>";
+                                    if (idiomaSel == "en") {
+                                        datosTabla += "<p>"+datosRecibidos[i].question.en+"</p>";
+                                    }
+                                    else {
+                                        datosTabla += "<p>"+datosRecibidos[i].question.es+"</p>";
+                                    }
+                                    datosTabla += "<img class='desplegable' src='resources/arrow.png' />";
+                                datosTabla += "</div>";
                                 datosTabla += "<div class='floatClear'></div>";
                                 datosTabla += "<div class='infoPregunta'>";
                                   datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
@@ -309,10 +461,19 @@ $(document).ready(function()
                                     datosTabla += "<img src='resources/modificar.png' class='modificar'>";
                                     datosTabla += "<img src='resources/eliminar.png' class='eliminar'></br>";
                                   datosTabla += "</div>";
-                                  datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                  if (idiomaSel == "en") {
+                                      datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
+                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
+                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
+                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
+                                  }
+                                  else {
+                                      datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.es+"</p>";
+                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].es+"</p>";
+                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].es+"</p>";
+                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].es+"</p>";
+                                  }
+
                                 datosTabla += "</div>";
                             datosTabla += "</td>";
                             if (isAdmin)
@@ -356,32 +517,38 @@ $(document).ready(function()
                         datosTabla += "</tr>";
                     }
                     $('tbody').html(datosTabla);
-                    $('tbody tr div').slideUp();
+                    $('tbody tr .infoPregunta').slideUp( function(){
+                      $('this .textoPregunta').css('height','100%');
+                    });
                 }
             }
         );
     });
 
-    $('tbody').on("click", "tr > td > img", function()
+    $('tbody').on("click", "tr > td .desplegable", function()
     {
-      var parent = $(this).parent().parent();
+      var pregunta = $(this).parent();
+      var parent = $(this).parent().parent().parent();
       var index = parent.index()+1;
       var shown = false;
-      if ( $('tbody tr:nth-child('+index+') div').is(":visible")) {
+      if ( $('tbody tr:nth-child('+index+') .infoPregunta').is(":visible")) {
         shown = true;
       }
       if (shown) {
         preguntaId = -1;
         $('#tabla').css('height', '100vh');
       }
-      $('tbody tr td > img').css('transform', 'none');
-      $('tbody tr > td > img').css('transform', 'none');
+      $('tbody tr > td .desplegable').css('transform', 'none');
+      $('tbody tr > td .desplegable').css('transform', 'none');
       $('.divBotones').fadeOut();
-      $('tbody tr div').slideUp();
+      $('tbody tr .infoPregunta').slideUp( function(){
+        $('this .textoPregunta').css('height','100%');
+      });
       if (!shown) {
         preguntaId = parent.data('value');
-        $('tbody tr:nth-child('+index+') > td > img').css('transform', 'rotate(180deg)');
-        $('tbody tr:nth-child('+index+') div').slideDown();
+        $('tbody tr:nth-child('+index+') > td .desplegable').css('transform', 'rotate(180deg)');
+        $('tbody tr:nth-child('+index+') .textoPregunta').css('height','4vh');
+        $('tbody tr:nth-child('+index+') .infoPregunta').slideDown();
         $('#tabla').css('height', '140vh');
         $('.divBotones').hide();
         $('.divBotones').fadeIn();

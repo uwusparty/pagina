@@ -45,6 +45,11 @@
     {
       width: 60%;
     }
+
+    .textoPregunta .desplegable
+    {
+      width: 8% !important;
+    }
 }
 
 @media (max-width: 750px)
@@ -91,5 +96,10 @@
     div#numPaginas
     {
       margin-bottom: 12vh !important;
+    }
+
+    .textoPregunta .desplegable
+    {
+      width: 10% !important;
     }
 }
