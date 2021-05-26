@@ -23,6 +23,11 @@
             <h1>Preguntas</h1>
         </div>
         <div id='filtros'>
+            <label for="idioma">Idioma: </label>
+            <select name="idioma" id="idioma">
+              <option value="es">Español</option>
+              <option value="en">Inglés</option>                
+            </select>
             <label for="categorias">Categorias: </label>
             <select name="categorias" id="categorias">
                 <option value="All">Todas</option>
