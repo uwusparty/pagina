@@ -35,6 +35,7 @@ $(document).ready(function()
                     data: {'function':'isAdmin'},
                     success: function (response) {
                         isAdmin = response;
+                        inicializar();
                         actualizar();
                     }
                 });
@@ -195,36 +196,45 @@ $(document).ready(function()
         return nombreEstado;
     }
 
+    function inicializar()
+    {
+      if (isAdmin) {
+        urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/*";
+      }
+      else {
+        urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/"+idUsuario;
+      }
+      //Recibimos las categorías que tiene el usuario
+      $.ajax
+      (
+          {
+              type: "get",
+              url: urlCategorias,
+              success: function (response)
+              {
+                  //No hace falta hacer el parse a la respuesta porque mongo lo devuelve como objetos
+                  var arrayCategorias = response.data;
+                  $('#categorias').html("<option value='All'>Todas</option>");
+                  for (let i = 0; i < arrayCategorias.length; i++)
+                  {
+                      $('#categorias').append("<option value='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");
+                  }
+              }
+          }
+      );
+    }
+
     function actualizar()
     {
         if (isAdmin) {
-          urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/*";
           urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
           urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
         }
         else {
-          urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/"+idUsuario;
           urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
           urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
         }
-        //Recibimos las categorías que tiene el usuario
-        $.ajax
-        (
-            {
-                type: "get",
-                url: urlCategorias,
-                success: function (response)
-                {
-                    //No hace falta hacer el parse a la respuesta porque mongo lo devuelve como objetos
-                    var arrayCategorias = response.data;
-                    $('#categorias').html("<option value='All'>Todas</option>");
-                    for (let i = 0; i < arrayCategorias.length; i++)
-                    {
-                        $('#categorias').append("<option value='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");
-                    }
-                }
-            }
-        );
+
         //Recibimos la cantidad de preguntas que tiene el usuario
         $.ajax
         (
