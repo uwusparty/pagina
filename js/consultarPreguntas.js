@@ -9,32 +9,15 @@ $(document).ready(function()
     var isAdmin = false;
     var idiomaSel = "es";
     var categoriaSel = "All";
-    var offset = 1;
+    var cantidad = 0;
+    var cantPaginas = 0;
+    var offset = 0;
     var preguntaId = -1;
 
-    var urlTodasCantidad;
-    var urlTodasPreguntas;
-    var urlCategoriaCantidad;
-    var urlCategoriaPreguntas;
-    var urlPaginaPreguntas;
-    //Llenamos el Select con Options que van a ser las categorías de las preguntas de la base de datos de mongo
-    $.ajax
-    (
-        {
-            type: "get",
-            url: "http://"+ip+":8080/trivialmi/questions/categories",
-            success: function (response)
-            {
-                //No hace falta hacer el parse a la respuesta porque mongo lo devuelve como objetos
-                var arrayCategorias = response.data;
+    var urlCategorias;
+    var urlCantidad;
+    var urlPreguntas;
 
-                for (let i = 0; i < arrayCategorias.length; i++)
-                {
-                    $('#categorias').append("<option val='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");
-                }
-            }
-        }
-    );
 
     $.ajax({
         type: "post",
@@ -58,26 +41,46 @@ $(document).ready(function()
             {
                 idUsuario = $.parseJSON(response);
                 if (isAdmin) {
-                  urlTodasCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/All/quantity";
-                  urlTodasPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/limit/"+limite;
+                  urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/*";
+                  urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
+                  urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
                 }
                 else {
-                  urlTodasCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/All/quantity";
-                  urlTodasPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/limit/"+limite;
+                  urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/"+idUsuario;
+                  urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
+                  urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
                 }
+                //Recibimos las categorías que tiene el usuario
+                $.ajax
+                (
+                    {
+                        type: "get",
+                        url: urlCategorias,
+                        success: function (response)
+                        {
+                            //No hace falta hacer el parse a la respuesta porque mongo lo devuelve como objetos
+                            var arrayCategorias = response.data;
+
+                            for (let i = 0; i < arrayCategorias.length; i++)
+                            {
+                                $('#categorias').append("<option val='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");
+                            }
+                        }
+                    }
+                );
                 //Recibimos la cantidad de preguntas que tiene el usuario
                 $.ajax
                 (
                     {
                         type: "get",
-                        url: urlTodasCantidad,
+                        url: urlCantidad,
                         success: function (response)
                         {
                             cantidad = response.data;
                             cantPaginas = Math.ceil(cantidad/limite);
                             $('#numPaginas').html("");
                             insertarNumeros = "<h3>Seleccionar página</h3>";
-                            if (offset > 1) {
+                            if (offset > 0) {
                               insertarNumeros += "<p><<</p>";
                               insertarNumeros += "<p><</p>";
                             }
@@ -85,7 +88,7 @@ $(document).ready(function()
                               insertarNumeros += "<p>||</p>";
                               insertarNumeros += "<p>|</p>";
                             }
-                            insertarNumeros += "<p>"+offset+"</p>";
+                            insertarNumeros += "<p>"+(offset+1)+"</p>";
 
                             if (offset < cantPaginas-1) {
                               insertarNumeros += "<p>></p>";
@@ -107,7 +110,7 @@ $(document).ready(function()
                 (
                     {
                         type: "get",
-                        url: urlTodasPreguntas,
+                        url: urlPreguntas,
                         success: function (response)
                         {
                             var arrayDatos = response.data;
@@ -204,19 +207,19 @@ $(document).ready(function()
     {
       idiomaSel = $(this).val();
       if (isAdmin) {
-        urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
-        urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+        urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
+        urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
       }
       else {
-        urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
-        urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+        urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
+        urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
       }
 
       $.ajax
       (
           {
               type: "get",
-              url: urlCategoriaPreguntas,
+              url: urlPreguntas,
               success: function (response)
               {
                   var datosRecibidos = response.data;
@@ -311,26 +314,27 @@ $(document).ready(function()
     $('#categorias').change(function (e)
     {
         categoriaSel = $(this).val();
+        offset = 0;
         if (isAdmin) {
-          urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
-          urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
+          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
         }
         else {
-          urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
-          urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
+          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
+          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
         }
         $.ajax
         (
             {
                 type: "get",
-                url: urlCategoriaCantidad,
+                url: urlCantidad,
                 success: function (response)
                 {
                     cantidad = response.data;
                     cantPaginas = Math.ceil(cantidad/limite);
                     $('#numPaginas').html("");
                     insertarNumeros = "<h3>Seleccionar página</h3>";
-                    if (offset > 1) {
+                    if (offset > 0) {
                       insertarNumeros += "<p><<</p>";
                       insertarNumeros += "<p><</p>";
                     }
@@ -338,7 +342,7 @@ $(document).ready(function()
                       insertarNumeros += "<p>||</p>";
                       insertarNumeros += "<p>|</p>";
                     }
-                    insertarNumeros += "<p>"+offset+"</p>";
+                    insertarNumeros += "<p>"+(offset+1)+"</p>";
 
                     if (offset < cantPaginas-1) {
                       insertarNumeros += "<p>></p>";
@@ -348,10 +352,6 @@ $(document).ready(function()
                       insertarNumeros += "<p>|</p>";
                       insertarNumeros += "<p>||</p>";
                     }
-                    /*for (let i = 0; i < cantPaginas; i++)
-                    {
-                        insertarNumeros += "<p>"+(i+1)+"</p>";
-                    }*/
                     $('#numPaginas').append(insertarNumeros);
                     $("#numPaginas p:nth-child(4)").css("color", "indianred");
                     $("#numPaginas p:nth-child(4)").css("cursor", "auto");
@@ -364,7 +364,7 @@ $(document).ready(function()
         (
             {
                 type: "get",
-                url: urlCategoriaPreguntas,
+                url: urlPreguntas,
                 success: function (response)
                 {
                     var datosRecibidos = response.data;
@@ -459,7 +459,7 @@ $(document).ready(function()
     $('#numPaginas').on("click", "p", function(e)
     {
         if ($(this).text() == '<<') {
-          offset = 1;
+          offset = 0;
         }
         else if ($(this).text() == '<') {
           offset -= 1;
@@ -474,27 +474,25 @@ $(document).ready(function()
           return;
         }
         if (isAdmin) {
-          urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
-          urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
-          urlPaginaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
+          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
+          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
         }
         else {
-          urlCategoriaCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
-          urlCategoriaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/0";
-          urlPaginaPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
+          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
+          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
         }
         $.ajax
         (
             {
                 type: "get",
-                url: urlCategoriaCantidad,
+                url: urlCantidad,
                 success: function (response)
                 {
                     cantidad = response.data;
                     cantPaginas = Math.ceil(cantidad/limite);
                     $('#numPaginas').html("");
                     insertarNumeros = "<h3>Seleccionar página</h3>";
-                    if (offset > 1) {
+                    if (offset > 0) {
                       insertarNumeros += "<p><<</p>";
                       insertarNumeros += "<p><</p>";
                     }
@@ -502,7 +500,7 @@ $(document).ready(function()
                       insertarNumeros += "<p>||</p>";
                       insertarNumeros += "<p>|</p>";
                     }
-                    insertarNumeros += "<p>"+offset+"</p>";
+                    insertarNumeros += "<p>"+(offset+1)+"</p>";
                     if (offset < cantPaginas-1) {
                       insertarNumeros += "<p>></p>";
                       insertarNumeros += "<p>>></p>";
@@ -511,10 +509,6 @@ $(document).ready(function()
                       insertarNumeros += "<p>|</p>";
                       insertarNumeros += "<p>||</p>";
                     }
-                    /*for (let i = 0; i < cantPaginas; i++)
-                    {
-                        insertarNumeros += "<p>"+(i+1)+"</p>";
-                    }*/
                     $('#numPaginas').append(insertarNumeros);
                     $("#numPaginas p:nth-child(4)").css("color", "indianred");
                     $("#numPaginas p:nth-child(4)").css("cursor", "auto");
@@ -526,12 +520,11 @@ $(document).ready(function()
         (
             {
                 type: "get",
-                url: urlPaginaPreguntas,
+                url: urlPreguntas,
                 success: function (response)
                 {
                     var datosRecibidos = response.data;
                     var datosTabla = "";
-
                     for (let i = 0; i < datosRecibidos.length; i++)
                     {
                         datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";

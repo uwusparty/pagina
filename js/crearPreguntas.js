@@ -6,11 +6,10 @@ $(document).ready(function ()
     (
         {
             type: "get",
-            url: "http://"+ip+":8080/trivialmi/questions/categories",
+            url: "http://"+ip+":8080/trivialmi/questions/categories/id/*",
             success: function (response)
             {
                 categorias = response.data;
-                console.log(categorias);
 
                 $('#categoriaes').append("<option id='removees'></option>");
                 for (let i = 0; i < categorias.length; i++)
