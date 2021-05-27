@@ -18,18 +18,6 @@ $(document).ready(function()
     var urlCantidad;
     var urlPreguntas;
 
-
-    $.ajax({
-        type: "post",
-        url: "servicios.php",
-        data: {'function':'isAdmin'},
-        success: function (response) {
-            isAdmin = response;
-            console.log(response);
-        }
-    });
-
-    //Recibimos las preguntas del usuario que esté con la sesión iniciada
     $.ajax
     (
         {
@@ -40,420 +28,32 @@ $(document).ready(function()
             success: function (response)
             {
                 idUsuario = $.parseJSON(response);
-                if (isAdmin) {
-                  urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/*";
-                  urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
-                  urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
-                }
-                else {
-                  urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/"+idUsuario;
-                  urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
-                  urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
-                }
-                //Recibimos las categorías que tiene el usuario
-                $.ajax
-                (
-                    {
-                        type: "get",
-                        url: urlCategorias,
-                        success: function (response)
-                        {
-                            //No hace falta hacer el parse a la respuesta porque mongo lo devuelve como objetos
-                            var arrayCategorias = response.data;
-
-                            for (let i = 0; i < arrayCategorias.length; i++)
-                            {
-                                $('#categorias').append("<option val='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");
-                            }
-                        }
+                //Comprobamos si el usuario es un administrador o un usuario
+                $.ajax({
+                    type: "post",
+                    url: "servicios.php",
+                    data: {'function':'isAdmin'},
+                    success: function (response) {
+                        isAdmin = response;
+                        actualizar();
                     }
-                );
-                //Recibimos la cantidad de preguntas que tiene el usuario
-                $.ajax
-                (
-                    {
-                        type: "get",
-                        url: urlCantidad,
-                        success: function (response)
-                        {
-                            cantidad = response.data;
-                            cantPaginas = Math.ceil(cantidad/limite);
-                            $('#numPaginas').html("");
-                            insertarNumeros = "<h3>Seleccionar página</h3>";
-                            if (offset > 0) {
-                              insertarNumeros += "<p><<</p>";
-                              insertarNumeros += "<p><</p>";
-                            }
-                            else {
-                              insertarNumeros += "<p>||</p>";
-                              insertarNumeros += "<p>|</p>";
-                            }
-                            insertarNumeros += "<p>"+(offset+1)+"</p>";
-
-                            if (offset < cantPaginas-1) {
-                              insertarNumeros += "<p>></p>";
-                              insertarNumeros += "<p>>></p>";
-                            }
-                            else {
-                              insertarNumeros += "<p>|</p>";
-                              insertarNumeros += "<p>||</p>";
-                            }
-                            $('#numPaginas').append(insertarNumeros);
-                            $("#numPaginas p:nth-child(4)").css("color", "indianred");
-                            $("#numPaginas p:nth-child(4)").css("cursor", "auto");
-                            $("#numPaginas p:nth-child(4)").css("font-weight", "bold");
-                        }
-                    }
-                );
-
-                $.ajax
-                (
-                    {
-                        type: "get",
-                        url: urlPreguntas,
-                        success: function (response)
-                        {
-                            var arrayDatos = response.data;
-                            for (let index = 0; index < arrayDatos.length; index++)
-                            {
-                                var element = arrayDatos[index];
-                                var insertarFila = "";
-                                insertarFila += "<tr data-value="+element._id+">";
-                                    insertarFila += "<td>";
-                                        insertarFila += "<div class='textoPregunta'>";
-                                            if (idiomaSel == "en") {
-                                              insertarFila += "<p>"+element.question.en+"</p>";
-                                            }
-                                            else {
-                                              insertarFila += "<p>"+element.question.es+"</p>"
-                                            }
-                                            insertarFila += "<img class='desplegable' src='resources/arrow.png' />";
-                                        insertarFila += "</div>";
-                                        insertarFila += "<div class='floatClear'></div>";
-                                        insertarFila += "<div class='infoPregunta'>";
-                                          insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'>";
-                                          insertarFila += "<div class='divBotones'>";
-                                            insertarFila += "<img src='resources/modificar.png' class='modificar'>";
-                                            insertarFila += "<img src='resources/eliminar.png' class='eliminar'></br>";
-                                          insertarFila += "</div>";
-                                          insertarFila += "<div class='floatClear'></div>";
-                                          if (idiomaSel == "en") {
-                                              insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
-                                              insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
-                                              insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
-                                              insertarFila += "<p class='incorrect'>"+element.incorrects[2].en+"</p>";
-                                          }
-                                          else {
-                                              insertarFila += "<p class='correct'>"+element.correct.es+"</p>";
-                                              insertarFila += "<p class='incorrect'>"+element.incorrects[0].es+"</p>";
-                                              insertarFila += "<p class='incorrect'>"+element.incorrects[1].es+"</p>";
-                                              insertarFila += "<p class='incorrect'>"+element.incorrects[2].es+"</p>";
-                                          }
-
-                                        insertarFila += "</div>";
-                                    insertarFila += "</td>";
-                                    if (isAdmin)
-                                    {
-                                        insertarFila += "<td class='selectorCol'>";
-                                            insertarFila += "<select name='selectEstado' class='selectEstado ";
-                                                if (devolverNombreEstado(element.status) == 'Pendiente') {
-                                                  insertarFila += "pendiente'>";
-                                                    insertarFila += "<option class='pendiente' selected='true'>Pendiente</option>";
-                                                    insertarFila += "<option class='aceptada'>Aceptada</option>";
-                                                    insertarFila += "<option class='rechazada'>Rechazada</option>";
-                                                }
-                                                else if (devolverNombreEstado(element.status) == 'Aceptada') {
-                                                  insertarFila += "aceptada'>";
-                                                    insertarFila += "<option class='pendiente'>Pendiente</option>";
-                                                    insertarFila += "<option class='aceptada' selected='true'>Aceptada</option>";
-                                                    insertarFila += "<option class='rechazada'>Rechazada</option>";
-                                                }
-                                                else {
-                                                  insertarFila += "rechazada'>";
-                                                    insertarFila += "<option class='pendiente'>Pendiente</option>";
-                                                    insertarFila += "<option class='aceptada'>Aceptada</option>";
-                                                    insertarFila += "<option class='rechazada' selected='true'>Rechazada</option>";
-                                                }
-                                            insertarFila += "</select>";
-                                    }
-                                    else
-                                    {
-                                        if (devolverNombreEstado(element.status) == 'Pendiente') {
-                                            insertarFila += "<td class='pendiente'>";
-                                          }
-                                          else if (devolverNombreEstado(element.status) == 'Aceptada') {
-                                            insertarFila += "<td class='aceptada'>";
-                                          }
-                                          else {
-                                            insertarFila += "<td class='rechazada'>";
-                                          }
-                                          insertarFila += devolverNombreEstado(element.status);
-                                    }
-                                    insertarFila += "</td>";
-                                insertarFila += "</tr>";
-                                $('tbody').append(insertarFila);
-                                $('tbody tr .infoPregunta').slideUp( function(){
-                                  $('this .textoPregunta').css('height','100%');
-                                });
-                            }
-                        }
-                    }
-                );
+                });
             }
         }
     );
 
+
     $('#idioma').change(function()
     {
       idiomaSel = $(this).val();
-      if (isAdmin) {
-        urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
-        urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
-      }
-      else {
-        urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
-        urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
-      }
-
-      $.ajax
-      (
-          {
-              type: "get",
-              url: urlPreguntas,
-              success: function (response)
-              {
-                  var datosRecibidos = response.data;
-                  var datosTabla = "";
-                  for (let i = 0; i < datosRecibidos.length; i++)
-                  {
-                      datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
-                          datosTabla += "<td>";
-                              datosTabla += "<div class='textoPregunta'>";
-                                  if (idiomaSel == "en") {
-                                    datosTabla += "<p>"+datosRecibidos[i].question.en+"</p>";
-                                  }
-                                  else {
-                                    datosTabla += "<p>"+datosRecibidos[i].question.es+"</p>";
-                                  }
-                                  datosTabla += "<img class='desplegable' src='resources/arrow.png' />";
-                              datosTabla += "</div>";
-                              datosTabla += "<div class='floatClear'></div>";
-                              datosTabla += "<div class='infoPregunta'>";
-                                datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
-                                datosTabla += "<div class='divBotones'>";
-                                  datosTabla += "<img src='resources/modificar.png' class='modificar'>";
-                                  datosTabla += "<img src='resources/eliminar.png' class='eliminar'></br>";
-                                datosTabla += "</div>";
-                                if (idiomaSel == "en") {
-                                  datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
-                                }
-                                else {
-                                  datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.es+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].es+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].es+"</p>";
-                                  datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].es+"</p>";
-                                }
-                              datosTabla += "</div>";
-                          datosTabla += "</td>";
-                          if (isAdmin)
-                                  {
-                                      datosTabla += "<td class='selectorCol'>";
-                                      datosTabla += "<select name='selectEstado' class='selectEstado ";
-                                              if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                                                datosTabla += "pendiente'>";
-                                                  datosTabla += "<option class='pendiente' selected='true'>Pendiente</option>";
-                                                  datosTabla += "<option class='aceptada'>Aceptada</option>";
-                                                  datosTabla += "<option class='rechazada'>Rechazada</option>";
-                                              }
-                                              else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                                                datosTabla += "aceptada'>";
-                                                  datosTabla += "<option class='pendiente'>Pendiente</option>";
-                                                  datosTabla += "<option class='aceptada' selected='true'>Aceptada</option>";
-                                                  datosTabla += "<option class='rechazada'>Rechazada</option>";
-                                              }
-                                              else {
-                                                datosTabla += "rechazada'>";
-                                                  datosTabla += "<option class='pendiente'>Pendiente</option>";
-                                                  datosTabla += "<option class='aceptada'>Aceptada</option>";
-                                                  datosTabla += "<option class='rechazada' selected='true'>Rechazada</option>";
-                                              }
-                                              datosTabla += "</select>";
-                                  }
-                                  else
-                                  {
-                                      if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                                          datosTabla += "<td class='pendiente'>";
-                                        }
-                                        else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                                          datosTabla += "<td class='aceptada'>";
-                                        }
-                                        else {
-                                          datosTabla += "<td class='rechazada'>";
-                                        }
-                                        datosTabla += devolverNombreEstado(datosRecibidos[i].status);
-                                  }
-                          datosTabla += "</td>";
-                      datosTabla += "</tr>";
-                  }
-                  $('tbody').html(datosTabla);
-                  $('tbody tr .infoPregunta').slideUp( function(){
-                    $('this .textoPregunta').css('height','100%');
-                  });
-              },
-              error: function(err)
-              {
-                  console.log(err);
-              }
-          }
-      );
+      actualizar();
     });
 
     $('#categorias').change(function (e)
     {
         categoriaSel = $(this).val();
         offset = 0;
-        if (isAdmin) {
-          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
-          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
-        }
-        else {
-          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
-          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
-        }
-        $.ajax
-        (
-            {
-                type: "get",
-                url: urlCantidad,
-                success: function (response)
-                {
-                    cantidad = response.data;
-                    cantPaginas = Math.ceil(cantidad/limite);
-                    $('#numPaginas').html("");
-                    insertarNumeros = "<h3>Seleccionar página</h3>";
-                    if (offset > 0) {
-                      insertarNumeros += "<p><<</p>";
-                      insertarNumeros += "<p><</p>";
-                    }
-                    else {
-                      insertarNumeros += "<p>||</p>";
-                      insertarNumeros += "<p>|</p>";
-                    }
-                    insertarNumeros += "<p>"+(offset+1)+"</p>";
-
-                    if (offset < cantPaginas-1) {
-                      insertarNumeros += "<p>></p>";
-                      insertarNumeros += "<p>>></p>";
-                    }
-                    else {
-                      insertarNumeros += "<p>|</p>";
-                      insertarNumeros += "<p>||</p>";
-                    }
-                    $('#numPaginas').append(insertarNumeros);
-                    $("#numPaginas p:nth-child(4)").css("color", "indianred");
-                    $("#numPaginas p:nth-child(4)").css("cursor", "auto");
-                    $("#numPaginas p:nth-child(4)").css("font-weight", "bold");
-                }
-            }
-        );
-
-        $.ajax
-        (
-            {
-                type: "get",
-                url: urlPreguntas,
-                success: function (response)
-                {
-                    var datosRecibidos = response.data;
-                    var datosTabla = "";
-                    for (let i = 0; i < datosRecibidos.length; i++)
-                    {
-                        datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
-                            datosTabla += "<td>";
-                                datosTabla += "<div class='textoPregunta'>";
-                                    if (idiomaSel == "en") {
-                                      datosTabla += "<p>"+datosRecibidos[i].question.en+"</p>";
-                                    }
-                                    else {
-                                      datosTabla += "<p>"+datosRecibidos[i].question.es+"</p>";
-                                    }
-                                    datosTabla += "<img class='desplegable' src='resources/arrow.png' />";
-                                datosTabla += "</div>";
-                                datosTabla += "<div class='floatClear'></div>";
-                                datosTabla += "<div class='infoPregunta'>";
-                                  datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
-                                  datosTabla += "<div class='divBotones'>";
-                                    datosTabla += "<img src='resources/modificar.png' class='modificar'>";
-                                    datosTabla += "<img src='resources/eliminar.png' class='eliminar'></br>";
-                                  datosTabla += "</div>";
-                                  if (idiomaSel == "en") {
-                                    datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
-                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
-                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
-                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
-                                  }
-                                  else {
-                                    datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.es+"</p>";
-                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].es+"</p>";
-                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].es+"</p>";
-                                    datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].es+"</p>";
-                                  }
-                                datosTabla += "</div>";
-                            datosTabla += "</td>";
-                            if (isAdmin)
-                                    {
-                                        datosTabla += "<td class='selectorCol'>";
-                                        datosTabla += "<select name='selectEstado' class='selectEstado ";
-                                                if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                                                  datosTabla += "pendiente'>";
-                                                    datosTabla += "<option class='pendiente' selected='true'>Pendiente</option>";
-                                                    datosTabla += "<option class='aceptada'>Aceptada</option>";
-                                                    datosTabla += "<option class='rechazada'>Rechazada</option>";
-                                                }
-                                                else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                                                  datosTabla += "aceptada'>";
-                                                    datosTabla += "<option class='pendiente'>Pendiente</option>";
-                                                    datosTabla += "<option class='aceptada' selected='true'>Aceptada</option>";
-                                                    datosTabla += "<option class='rechazada'>Rechazada</option>";
-                                                }
-                                                else {
-                                                  datosTabla += "rechazada'>";
-                                                    datosTabla += "<option class='pendiente'>Pendiente</option>";
-                                                    datosTabla += "<option class='aceptada'>Aceptada</option>";
-                                                    datosTabla += "<option class='rechazada' selected='true'>Rechazada</option>";
-                                                }
-                                                datosTabla += "</select>";
-                                    }
-                                    else
-                                    {
-                                        if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                                            datosTabla += "<td class='pendiente'>";
-                                          }
-                                          else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                                            datosTabla += "<td class='aceptada'>";
-                                          }
-                                          else {
-                                            datosTabla += "<td class='rechazada'>";
-                                          }
-                                          datosTabla += devolverNombreEstado(datosRecibidos[i].status);
-                                    }
-                            datosTabla += "</td>";
-                        datosTabla += "</tr>";
-                    }
-                    $('tbody').html(datosTabla);
-                    $('tbody tr .infoPregunta').slideUp( function(){
-                      $('this .textoPregunta').css('height','100%');
-                    });
-                },
-                error: function(err)
-                {
-                    console.log(err);
-                }
-            }
-        );
+        actualizar();
     });
 
     $('#numPaginas').on("click", "p", function(e)
@@ -473,140 +73,7 @@ $(document).ready(function()
         else {
           return;
         }
-        if (isAdmin) {
-          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
-          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
-        }
-        else {
-          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
-          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
-        }
-        $.ajax
-        (
-            {
-                type: "get",
-                url: urlCantidad,
-                success: function (response)
-                {
-                    cantidad = response.data;
-                    cantPaginas = Math.ceil(cantidad/limite);
-                    $('#numPaginas').html("");
-                    insertarNumeros = "<h3>Seleccionar página</h3>";
-                    if (offset > 0) {
-                      insertarNumeros += "<p><<</p>";
-                      insertarNumeros += "<p><</p>";
-                    }
-                    else {
-                      insertarNumeros += "<p>||</p>";
-                      insertarNumeros += "<p>|</p>";
-                    }
-                    insertarNumeros += "<p>"+(offset+1)+"</p>";
-                    if (offset < cantPaginas-1) {
-                      insertarNumeros += "<p>></p>";
-                      insertarNumeros += "<p>>></p>";
-                    }
-                    else {
-                      insertarNumeros += "<p>|</p>";
-                      insertarNumeros += "<p>||</p>";
-                    }
-                    $('#numPaginas').append(insertarNumeros);
-                    $("#numPaginas p:nth-child(4)").css("color", "indianred");
-                    $("#numPaginas p:nth-child(4)").css("cursor", "auto");
-                    $("#numPaginas p:nth-child(4)").css("font-weight", "bold");
-                }
-            }
-        );
-        $.ajax
-        (
-            {
-                type: "get",
-                url: urlPreguntas,
-                success: function (response)
-                {
-                    var datosRecibidos = response.data;
-                    var datosTabla = "";
-                    for (let i = 0; i < datosRecibidos.length; i++)
-                    {
-                        datosTabla += "<tr data-value="+datosRecibidos[i]._id+">";
-                            datosTabla += "<td>";
-                                datosTabla += "<div class='textoPregunta'>";
-                                    if (idiomaSel == "en") {
-                                        datosTabla += "<p>"+datosRecibidos[i].question.en+"</p>";
-                                    }
-                                    else {
-                                        datosTabla += "<p>"+datosRecibidos[i].question.es+"</p>";
-                                    }
-                                    datosTabla += "<img class='desplegable' src='resources/arrow.png' />";
-                                datosTabla += "</div>";
-                                datosTabla += "<div class='floatClear'></div>";
-                                datosTabla += "<div class='infoPregunta'>";
-                                  datosTabla += "<img src=' http://192.168.6.216/categorias/"+datosRecibidos[i].image_url+"'>";
-                                  datosTabla += "<div class='divBotones'>";
-                                    datosTabla += "<img src='resources/modificar.png' class='modificar'>";
-                                    datosTabla += "<img src='resources/eliminar.png' class='eliminar'></br>";
-                                  datosTabla += "</div>";
-                                  if (idiomaSel == "en") {
-                                      datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.en+"</p>";
-                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].en+"</p>";
-                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].en+"</p>";
-                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].en+"</p>";
-                                  }
-                                  else {
-                                      datosTabla += "<p class='correct'>"+datosRecibidos[i].correct.es+"</p>";
-                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[0].es+"</p>";
-                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[1].es+"</p>";
-                                      datosTabla += "<p class='incorrect'>"+datosRecibidos[i].incorrects[2].es+"</p>";
-                                  }
-
-                                datosTabla += "</div>";
-                            datosTabla += "</td>";
-                            if (isAdmin)
-                                    {
-                                        datosTabla += "<td class='selectorCol'>";
-                                        datosTabla += "<select name='selectEstado' class='selectEstado ";
-                                                if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                                                  datosTabla += "pendiente'>";
-                                                    datosTabla += "<option class='pendiente' selected='true'>Pendiente</option>";
-                                                    datosTabla += "<option class='aceptada'>Aceptada</option>";
-                                                    datosTabla += "<option class='rechazada'>Rechazada</option>";
-                                                }
-                                                else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                                                  datosTabla += "aceptada'>";
-                                                    datosTabla += "<option class='pendiente'>Pendiente</option>";
-                                                    datosTabla += "<option class='aceptada' selected='true'>Aceptada</option>";
-                                                    datosTabla += "<option class='rechazada'>Rechazada</option>";
-                                                }
-                                                else {
-                                                  datosTabla += "rechazada'>";
-                                                    datosTabla += "<option class='pendiente'>Pendiente</option>";
-                                                    datosTabla += "<option class='aceptada'>Aceptada</option>";
-                                                    datosTabla += "<option class='rechazada' selected='true'>Rechazada</option>";
-                                                }
-                                                datosTabla += "</select>";
-                                    }
-                                    else
-                                    {
-                                        if (devolverNombreEstado(datosRecibidos[i].status) == 'Pendiente') {
-                                            datosTabla += "<td class='pendiente'>";
-                                          }
-                                          else if (devolverNombreEstado(datosRecibidos[i].status) == 'Aceptada') {
-                                            datosTabla += "<td class='aceptada'>";
-                                          }
-                                          else {
-                                            datosTabla += "<td class='rechazada'>";
-                                          }
-                                          datosTabla += devolverNombreEstado(datosRecibidos[i].status);
-                                    }
-                            datosTabla += "</td>";
-                        datosTabla += "</tr>";
-                    }
-                    $('tbody').html(datosTabla);
-                    $('tbody tr .infoPregunta').slideUp( function(){
-                      $('this .textoPregunta').css('height','100%');
-                    });
-                }
-            }
-        );
+        actualizar();
     });
 
     $('tbody').on("click", "tr > td .desplegable", function()
@@ -726,5 +193,169 @@ $(document).ready(function()
             nombreEstado = "Aceptada";
         }
         return nombreEstado;
+    }
+
+    function actualizar()
+    {
+        if (isAdmin) {
+          urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/*";
+          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/quantity";
+          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/*/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
+        }
+        else {
+          urlCategorias = "http://"+ip+":8080/trivialmi/questions/categories/id/"+idUsuario;
+          urlCantidad = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/quantity";
+          urlPreguntas = "http://"+ip+":8080/trivialmi/questions/id/"+idUsuario+"/category/"+categoriaSel+"/limit/"+limite+"/offset/"+offset;
+        }
+        //Recibimos las categorías que tiene el usuario
+        $.ajax
+        (
+            {
+                type: "get",
+                url: urlCategorias,
+                success: function (response)
+                {
+                    //No hace falta hacer el parse a la respuesta porque mongo lo devuelve como objetos
+                    var arrayCategorias = response.data;
+                    $('#categorias').html("<option value='All'>Todas</option>");
+                    for (let i = 0; i < arrayCategorias.length; i++)
+                    {
+                        $('#categorias').append("<option value='"+arrayCategorias[i].es+"'>"+arrayCategorias[i].es+"</option>");
+                    }
+                }
+            }
+        );
+        //Recibimos la cantidad de preguntas que tiene el usuario
+        $.ajax
+        (
+            {
+                type: "get",
+                url: urlCantidad,
+                success: function (response)
+                {
+                    cantidad = response.data;
+                    cantPaginas = Math.ceil(cantidad/limite);
+                    $('#numPaginas').html("");
+                    insertarNumeros = "<h3>Seleccionar página</h3>";
+                    if (offset > 0) {
+                      insertarNumeros += "<p><<</p>";
+                      insertarNumeros += "<p><</p>";
+                    }
+                    else {
+                      insertarNumeros += "<p>||</p>";
+                      insertarNumeros += "<p>|</p>";
+                    }
+                    insertarNumeros += "<p>"+(offset+1)+"</p>";
+
+                    if (offset < cantPaginas-1) {
+                      insertarNumeros += "<p>></p>";
+                      insertarNumeros += "<p>>></p>";
+                    }
+                    else {
+                      insertarNumeros += "<p>|</p>";
+                      insertarNumeros += "<p>||</p>";
+                    }
+                    $('#numPaginas').append(insertarNumeros);
+                    $("#numPaginas p:nth-child(4)").css("color", "indianred");
+                    $("#numPaginas p:nth-child(4)").css("cursor", "auto");
+                    $("#numPaginas p:nth-child(4)").css("font-weight", "bold");
+                }
+            }
+        );
+
+        $.ajax
+        (
+            {
+                type: "get",
+                url: urlPreguntas,
+                success: function (response)
+                {
+                    $('tbody').html('');
+                    var arrayDatos = response.data;
+                    for (let index = 0; index < arrayDatos.length; index++)
+                    {
+                        var element = arrayDatos[index];
+                        var insertarFila = "";
+                        insertarFila += "<tr data-value="+element._id+">";
+                            insertarFila += "<td>";
+                                insertarFila += "<div class='textoPregunta'>";
+                                    if (idiomaSel == "en") {
+                                      insertarFila += "<p>"+element.question.en+"</p>";
+                                    }
+                                    else {
+                                      insertarFila += "<p>"+element.question.es+"</p>"
+                                    }
+                                    insertarFila += "<img class='desplegable' src='resources/arrow.png' />";
+                                insertarFila += "</div>";
+                                insertarFila += "<div class='floatClear'></div>";
+                                insertarFila += "<div class='infoPregunta'>";
+                                  insertarFila += "<img src=' http://192.168.6.216/categorias/"+element.image_url+"'>";
+                                  insertarFila += "<div class='divBotones'>";
+                                    insertarFila += "<img src='resources/modificar.png' class='modificar'>";
+                                    insertarFila += "<img src='resources/eliminar.png' class='eliminar'></br>";
+                                  insertarFila += "</div>";
+                                  insertarFila += "<div class='floatClear'></div>";
+                                  if (idiomaSel == "en") {
+                                      insertarFila += "<p class='correct'>"+element.correct.en+"</p>";
+                                      insertarFila += "<p class='incorrect'>"+element.incorrects[0].en+"</p>";
+                                      insertarFila += "<p class='incorrect'>"+element.incorrects[1].en+"</p>";
+                                      insertarFila += "<p class='incorrect'>"+element.incorrects[2].en+"</p>";
+                                  }
+                                  else {
+                                      insertarFila += "<p class='correct'>"+element.correct.es+"</p>";
+                                      insertarFila += "<p class='incorrect'>"+element.incorrects[0].es+"</p>";
+                                      insertarFila += "<p class='incorrect'>"+element.incorrects[1].es+"</p>";
+                                      insertarFila += "<p class='incorrect'>"+element.incorrects[2].es+"</p>";
+                                  }
+
+                                insertarFila += "</div>";
+                            insertarFila += "</td>";
+                            if (isAdmin)
+                            {
+                                insertarFila += "<td class='selectorCol'>";
+                                    insertarFila += "<select name='selectEstado' class='selectEstado ";
+                                        if (devolverNombreEstado(element.status) == 'Pendiente') {
+                                          insertarFila += "pendiente'>";
+                                            insertarFila += "<option class='pendiente' selected='true'>Pendiente</option>";
+                                            insertarFila += "<option class='aceptada'>Aceptada</option>";
+                                            insertarFila += "<option class='rechazada'>Rechazada</option>";
+                                        }
+                                        else if (devolverNombreEstado(element.status) == 'Aceptada') {
+                                          insertarFila += "aceptada'>";
+                                            insertarFila += "<option class='pendiente'>Pendiente</option>";
+                                            insertarFila += "<option class='aceptada' selected='true'>Aceptada</option>";
+                                            insertarFila += "<option class='rechazada'>Rechazada</option>";
+                                        }
+                                        else {
+                                          insertarFila += "rechazada'>";
+                                            insertarFila += "<option class='pendiente'>Pendiente</option>";
+                                            insertarFila += "<option class='aceptada'>Aceptada</option>";
+                                            insertarFila += "<option class='rechazada' selected='true'>Rechazada</option>";
+                                        }
+                                    insertarFila += "</select>";
+                            }
+                            else
+                            {
+                                if (devolverNombreEstado(element.status) == 'Pendiente') {
+                                    insertarFila += "<td class='pendiente'>";
+                                  }
+                                  else if (devolverNombreEstado(element.status) == 'Aceptada') {
+                                    insertarFila += "<td class='aceptada'>";
+                                  }
+                                  else {
+                                    insertarFila += "<td class='rechazada'>";
+                                  }
+                                  insertarFila += devolverNombreEstado(element.status);
+                            }
+                            insertarFila += "</td>";
+                        insertarFila += "</tr>";
+                        $('tbody').append(insertarFila);
+                        $('tbody tr .infoPregunta').slideUp( function(){
+                          $('this .textoPregunta').css('height','100%');
+                        });
+                    }
+                }
+            }
+        );
     }
 });

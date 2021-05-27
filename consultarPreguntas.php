@@ -26,7 +26,7 @@
             <label for="idioma">Idioma: </label>
             <select name="idioma" id="idioma">
               <option value="es">Español</option>
-              <option value="en">Inglés</option>                
+              <option value="en">Inglés</option>
             </select>
             <label for="categorias">Categorias: </label>
             <select name="categorias" id="categorias">

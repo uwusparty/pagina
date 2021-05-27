@@ -30,7 +30,7 @@
             </div>
             <div class='apartado'>
                 <div class='paraImagen'>
-                    <img src='resources/ruleta.png' alt='Imagen de ruleta'>
+                    <img src='resources/mando.png' alt='Imagen de ruleta'>
                 </div>
                 <div>
                     <h2>¿Qué es Trivialmi?</h2>
@@ -44,7 +44,7 @@
                     <p>Además de aportar ideas para preguntas, tambien buscamos nuevos integrantes para el grupo de desarrollo de UwU's Party Entertainment. Si estás interesado en esta oferta, asegurate de enviar tu curriculum a uwusparty@gmail.com o presentante en nuestras oficinas en la calle Lehendakari Aguirre. Procura proporcionarnos toda la información posible sobre ti para tener mayor oportunidad de ser seleccionado, y sobre todo, ¡buena suerte!</p>
                 </div>
                 <div class='paraImagen'>
-                    <img src='resources/ruleta.png' alt='Imagen de ruleta'>
+                    <img src='resources/gente.png' alt='Imagen de ruleta'>
                 </div>
             </div>
         </div>
